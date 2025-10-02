@@ -4,11 +4,9 @@ import 'package:random_avatar/random_avatar.dart';
 class Avatar extends StatelessWidget {
   const Avatar({
     super.key,
-    required this.columnWidth,
     required this.columIndex,
   });
 
-  final double columnWidth;
   final int columIndex;
 
   @override
@@ -24,14 +22,12 @@ class Avatar extends StatelessWidget {
       int() => '',
     };
 
-    return Container(
-      width: columnWidth,
-      child: Column(
-        children: [
-          RandomAvatar(name, height: 40, width: 40),
-          Text(name, style: TextStyle(fontSize: 12)),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RandomAvatar(name, height: 40, width: 40),
+        Text(name, style: TextStyle(fontSize: 12)),
+      ],
     );
   }
 }

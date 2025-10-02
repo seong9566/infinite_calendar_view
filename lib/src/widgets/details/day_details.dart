@@ -24,9 +24,7 @@ class DefaultDayEvents extends StatelessWidget {
   );
 
   static const defaultEmptyEventsWidget = Padding(
-    padding: EdgeInsets.symmetric(
-        vertical: defaultVerticalSmallPadding,
-        horizontal: defaultHorizontalPadding),
+    padding: EdgeInsets.symmetric(vertical: defaultVerticalSmallPadding, horizontal: defaultHorizontalPadding),
     child: Text(defaultNoEventText, textAlign: TextAlign.left),
   );
 
@@ -59,8 +57,7 @@ class DefaultDayEvents extends StatelessWidget {
       return emptyEventsWidget;
     }
     return Column(
-      children:
-          events?.map((event) => getEventAndSeparator(event)).toList() ?? [],
+      children: events?.map((event) => getEventAndSeparator(event)).toList() ?? [],
     );
   }
 
@@ -69,9 +66,7 @@ class DefaultDayEvents extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         eventBuilder?.call(event) ?? DefaultDetailEvent(event: event),
-        if (eventSeparator != null &&
-            events!.indexOf(event) != events!.length - 1)
-          eventSeparator!,
+        if (eventSeparator != null && events!.indexOf(event) != events!.length - 1) eventSeparator!,
       ],
     );
   }
@@ -138,8 +133,7 @@ class DefaultDetailEvent extends StatelessWidget {
     } else {
       var startTime = event.startTime;
       timeText = this.timeText ?? getDefaultTimeText(startTime);
-      durationText = this.durationText ??
-          this.getDefaultDurationText(event.startTime, event.endTime!);
+      durationText = this.durationText ?? this.getDefaultDurationText(event.startTime, event.endTime!);
     }
 
     return InkWell(
@@ -228,10 +222,7 @@ class DefaultDetailEvent extends StatelessWidget {
           if (durationText != null)
             Text(
               durationText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Theme.of(context).colorScheme.outline),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline),
             ),
         ],
       ),

@@ -61,8 +61,7 @@ class _HeaderListWidgetState extends State<HeaderListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.dayHeaderBuilder?.call(widget.day, widget.isToday, events) ??
-        DefaultHeader(dayText: widget.day.toString());
+    return widget.dayHeaderBuilder?.call(widget.day, widget.isToday, events) ?? DefaultHeader(dayText: widget.day.toString());
   }
 }
 

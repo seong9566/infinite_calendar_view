@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 
-import '../events/event.dart';
 import '../utils/extension.dart';
 
-typedef EventFilter = List<Event>? Function(
-    DateTime date, List<Event>? dayEvents);
+typedef EventFilter = List<Event>? Function(DateTime date, List<Event>? dayEvents);
 typedef UpdateCalendarDataCallback = void Function(CalendarData calendarData);
 
 class EventsController extends ChangeNotifier {
@@ -21,6 +20,9 @@ class EventsController extends ChangeNotifier {
 
   // call when focused day change
   void Function(DateTime day)? onFocusedDayChange;
+
+  // current interactive slot selection
+  final slotSelectionNotifier = ValueNotifier<SlotSelection?>(null);
 
   /// modify event data and update UI
   void updateCalendarData(UpdateCalendarDataCallback fn) {
@@ -49,9 +51,8 @@ class EventsController extends ChangeNotifier {
   }) {
     var dayEvents = calendarData.dayEvents[date.withoutTime];
     var dayEventsByType = dayEvents
-        ?.where((e) => e.isFullDay
-            ? (e.isMultiDay ? returnMultiFullDayEvents : returnFullDayEvent)
-            : (e.isMultiDay ? returnMultiDayEvents : returnDayEvents))
+        ?.where((e) =>
+            e.isFullDay ? (e.isMultiDay ? returnMultiFullDayEvents : returnFullDayEvent) : (e.isMultiDay ? returnMultiDayEvents : returnDayEvents))
         .toList();
     return dayEventsFilter.call(date, dayEventsByType);
   }
@@ -61,6 +62,10 @@ class EventsController extends ChangeNotifier {
     var daysEvents = getFilteredDayEvents(date);
     daysEvents?.sort((a, b) => a.startTime.compareTo(b.startTime));
     return daysEvents;
+  }
+
+  void changeSlotSelection(SlotSelection? slotSelection) {
+    slotSelectionNotifier.value = slotSelection;
   }
 
   // force update UI
@@ -74,18 +79,13 @@ class CalendarData {
   /// add all events and cuts up appointments if they are over several days
   void addEvents(List<Event> events) {
     for (var event in events) {
-      var days = event.endTime?.withoutTime
-              .difference(event.startTime.withoutTime)
-              .inDays ??
-          0;
+      var days = event.endTime?.withoutTime.difference(event.startTime.withoutTime).inDays ?? 0;
 
       // if event is multi days, dispatch in all events days
       for (int i = 0; i <= days; i++) {
         var day = event.startTime.withoutTime.add(Duration(days: i));
         var startTime = i == 0 ? event.startTime : day;
-        var endTime = (i == days && !event.isFullDay)
-            ? event.endTime
-            : day.add(Duration(days: 1, milliseconds: -1));
+        var endTime = (i == days && !event.isFullDay) ? event.endTime : day.add(Duration(days: 1, milliseconds: -1));
         var newEvents = event.copyWith(
           startTime: startTime,
           endTime: endTime,
@@ -130,9 +130,7 @@ class CalendarData {
       oldEvent: event,
       newEvent: event.copyWith(
         startTime: newStartTime,
-        endTime: event.endTime == null
-            ? null
-            : newEndTime ?? newStartTime.add(event.getDuration() ?? Duration()),
+        endTime: event.endTime == null ? null : newEndTime ?? newStartTime.add(event.getDuration() ?? Duration()),
       ),
     );
   }
@@ -141,10 +139,8 @@ class CalendarData {
   /// if eventType is entered, remove juste day event type
   /// does not delete multi-day events that do not start on that day
   void removeDayEvents(DateTime day, [final Object? eventType]) {
-    var eventsToRemove = dayEvents[day.withoutTime]?.where((e) =>
-            (eventType == null || (e.eventType == eventType)) &&
-            (!e.isMultiDay || e.daysIndex == 0)) ??
-        [];
+    var eventsToRemove =
+        dayEvents[day.withoutTime]?.where((e) => (eventType == null || (e.eventType == eventType)) && (!e.isMultiDay || e.daysIndex == 0)) ?? [];
     for (var event in [...eventsToRemove]) {
       removeEvent(event.copyWith());
     }
@@ -159,8 +155,7 @@ class CalendarData {
     }
     // remove simple event or full day event
     else {
-      dayEvents[event.startTime.withoutTime]
-          ?.removeWhere((e) => e.uniqueId == event.uniqueId);
+      dayEvents[event.startTime.withoutTime]?.removeWhere((e) => e.uniqueId == event.uniqueId);
     }
   }
 
@@ -169,15 +164,13 @@ class CalendarData {
   void removeMultiDayEvent(Event event) {
     // remove event for event day and previous day for same event (multi day events)
     var previousDay = event.startTime.withoutTime;
-    while (dayEvents[previousDay]?.any((e) => e.uniqueId == event.uniqueId) ==
-        true) {
+    while (dayEvents[previousDay]?.any((e) => e.uniqueId == event.uniqueId) == true) {
       dayEvents[previousDay]?.removeWhere((e) => e.uniqueId == event.uniqueId);
       previousDay = previousDay.subtract(Duration(days: 1));
     }
     // remove next same event (multi day events)
     var nextDay = event.startTime.withoutTime.add(Duration(days: 1));
-    while (
-        dayEvents[nextDay]?.any((e) => e.uniqueId == event.uniqueId) == true) {
+    while (dayEvents[nextDay]?.any((e) => e.uniqueId == event.uniqueId) == true) {
       dayEvents[nextDay]?.removeWhere((e) => e.uniqueId == event.uniqueId);
       nextDay = nextDay.add(Duration(days: 1));
     }

@@ -24,11 +24,9 @@ class VerticalTimeIndicatorWidget extends StatelessWidget {
     return SizedBox(
       width: timesIndicatorsParam.timesIndicatorsWidth,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: timesIndicatorsParam.timesIndicatorsHorizontalPadding),
+        padding: EdgeInsets.symmetric(horizontal: timesIndicatorsParam.timesIndicatorsHorizontalPadding),
         child: CustomPaint(
-          foregroundPainter: timesIndicatorsParam.timesIndicatorsCustomPainter
-                  ?.call(heightPerMinute) ??
+          foregroundPainter: timesIndicatorsParam.timesIndicatorsCustomPainter?.call(heightPerMinute) ??
               HoursPainter(
                 heightPerMinute: heightPerMinute,
                 textDirection: textDirection,

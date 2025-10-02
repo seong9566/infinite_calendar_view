@@ -40,8 +40,7 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // take appbar background color first
-    var defaultHeaderBackgroundColor =
-        Theme.of(context).appBarTheme.backgroundColor;
+    var defaultHeaderBackgroundColor = Theme.of(context).appBarTheme.backgroundColor;
 
     return Container(
       decoration: BoxDecoration(
@@ -69,9 +68,7 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
                 negChildCount: maxPreviousDays,
                 posChildCount: maxNextDays,
                 builder: (context, index) {
-                  var day = textDirection == TextDirection.ltr
-                      ? initialDate.add(Duration(days: index))
-                      : initialDate.subtract(Duration(days: index));
+                  var day = textDirection == TextDirection.ltr ? initialDate.add(Duration(days: index)) : initialDate.subtract(Duration(days: index));
                   var isToday = DateUtils.isSameDay(day, DateTime.now());
 
                   return InfiniteListItem(
@@ -83,19 +80,10 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
                           children: [
                             if (daysHeaderParam.daysHeaderVisibility)
                               daysHeaderParam.dayHeaderBuilder != null
-                                  ? daysHeaderParam.dayHeaderBuilder!
-                                      .call(day, isToday)
+                                  ? daysHeaderParam.dayHeaderBuilder!.call(day, isToday)
                                   : getDefaultDayHeader(day, isToday),
-                            if (columnsParam.columns > 1 ||
-                                columnsParam.columnHeaderBuilder != null ||
-                                columnsParam.columnsLabels.isNotEmpty)
-                              getColumnsHeader(
-                                context,
-                                startColumnIndex,
-                                onColumnIndexChanged,
-                                day,
-                                isToday,
-                              )
+                            if (columnsParam.columns > 1 || columnsParam.columnHeaderBuilder != null || columnsParam.columnsLabels.isNotEmpty)
+                              getColumnsHeader(context, startColumnIndex, onColumnIndexChanged, day, isToday)
                           ],
                         ),
                       );
@@ -112,8 +100,7 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
 
   DefaultDayHeader getDefaultDayHeader(DateTime day, bool isToday) {
     return DefaultDayHeader(
-      dayText: daysHeaderParam.dayHeaderTextBuilder?.call(day) ??
-          "${day.day}/${day.month}",
+      dayText: daysHeaderParam.dayHeaderTextBuilder?.call(day) ?? "${day.day}/${day.month}",
       isToday: isToday,
       foregroundColor: daysHeaderParam.daysHeaderForegroundColor,
     );
@@ -129,11 +116,8 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
     var bgColor = colorScheme.surface;
     var builder = columnsParam.columnHeaderBuilder;
-    var endColumnIndex = min(
-        columnsParam.maxColumns != null
-            ? startColumnIndex + columnsParam.maxColumns!
-            : columnsParam.columns,
-        columnsParam.columns);
+    var endColumnIndex =
+        min(columnsParam.maxColumns != null ? startColumnIndex + columnsParam.maxColumns! : columnsParam.columns, columnsParam.columns);
     return Stack(
       children: [
         // left previous columns icons
@@ -148,16 +132,14 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
               onPressed: () {
-                var newStartColumnIndex =
-                    max(0, startColumnIndex - columnsParam.maxColumns!);
+                var newStartColumnIndex = max(0, startColumnIndex - columnsParam.maxColumns!);
                 onColumnIndexChanged.call(newStartColumnIndex);
               },
             ),
           ),
 
         // right next columns icon
-        if (endColumnIndex < columnsParam.columns &&
-            columnsParam.maxColumns != null)
+        if (endColumnIndex < columnsParam.columns && columnsParam.maxColumns != null)
           Positioned(
             right: 0,
             child: IconButton(
@@ -180,22 +162,15 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
         // columns
         Row(
           children: [
-            for (var column = startColumnIndex;
-                column < endColumnIndex;
-                column++)
+            for (var column = startColumnIndex; column < endColumnIndex; column++)
               if (builder != null)
-                builder.call(day, isToday, column,
-                    columnsParam.getColumSize(dayWidth, column))
+                builder.call(day, isToday, column, columnsParam.getColumSize(dayWidth, column))
               else
                 DefaultColumnHeader(
                   columnText: columnsParam.columnsLabels[column],
                   columnWidth: columnsParam.getColumSize(dayWidth, column),
-                  backgroundColor: columnsParam.columnsColors.isNotEmpty
-                      ? columnsParam.columnsColors[column]
-                      : bgColor,
-                  foregroundColor:
-                      columnsParam.columnsForegroundColors?[column] ??
-                          colorScheme.primary,
+                  backgroundColor: columnsParam.columnsColors.isNotEmpty ? columnsParam.columnsColors[column] : bgColor,
+                  foregroundColor: columnsParam.columnsForegroundColors?[column] ?? colorScheme.primary,
                 )
           ],
         ),
@@ -276,9 +251,7 @@ class DefaultDayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var defaultForegroundColor = context.isDarkMode
-        ? Theme.of(context).colorScheme.primary
-        : colorScheme.onPrimary;
+    var defaultForegroundColor = context.isDarkMode ? Theme.of(context).colorScheme.primary : colorScheme.onPrimary;
     var fgColor = foregroundColor ?? defaultForegroundColor;
     var todayBgColor = todayBackgroundColor ?? colorScheme.surface;
     var todayFgColor = todayForegroundColor ?? colorScheme.primary;
@@ -291,8 +264,7 @@ class DefaultDayHeader extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 child: Text(
                   dayText,
                   textAlign: TextAlign.center,
@@ -345,8 +317,7 @@ class TopLeftCellState extends State<TopLeftCell> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: widget.topLeftCellBuilder
-          ?.call(widget.topLeftCellValueNotifier.value),
+      child: widget.topLeftCellBuilder?.call(widget.topLeftCellValueNotifier.value),
     );
   }
 }

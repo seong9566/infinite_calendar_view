@@ -17,8 +17,7 @@ class Months extends StatelessWidget {
           return DraggableMonthEvent(
             child: DefaultMonthDayEvent(event: event),
             onDragEnd: (DateTime day) {
-              eventsController
-                  .updateCalendarData((data) => move(data, event, day));
+              eventsController.updateCalendarData((data) => move(data, event, day));
             },
           );
         },

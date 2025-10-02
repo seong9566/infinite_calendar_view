@@ -17,9 +17,7 @@ class EventsListView extends StatelessWidget {
       maxNextDays: 365,
       onDayChange: (day) {},
       todayHeaderColor: const Color(0xFFf4f9fd),
-      verticalScrollPhysics: const BouncingScrollPhysics(
-        decelerationRate: ScrollDecelerationRate.fast,
-      ),
+      verticalScrollPhysics: const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
       dayEventsBuilder: (day, events) {
         return DefaultDayEvents(
           events: events,

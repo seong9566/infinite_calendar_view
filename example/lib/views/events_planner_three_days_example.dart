@@ -1,4 +1,5 @@
 import 'package:example/main.dart';
+import 'package:example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,15 @@ class PlannerTreeDays extends StatelessWidget {
       daysHeaderParam: DaysHeaderParam(
         daysHeaderVisibility: true,
         dayHeaderTextBuilder: (day) => DateFormat("E d").format(day),
+      ),
+      dayParam: DayParam(
+        onSlotMinutesRound: 60,
+        onSlotRoundAlwaysBefore: true,
+        slotSelectionParam: SlotSelectionParam(
+          enableTapSlotSelection: true,
+          enableLongPressSlotSelection: true,
+          onSlotSelectionTap: (slot) => showSnack(context, slot.startDateTime.toString() + " : " + slot.durationInMinutes.toString()),
+        ),
       ),
     );
   }

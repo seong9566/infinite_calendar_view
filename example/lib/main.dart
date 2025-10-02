@@ -127,8 +127,7 @@ class CalendarViewWidget extends StatelessWidget {
       Mode.day3RTL => PlannerRTL(key: UniqueKey()),
       Mode.monthRTL => MonthsRTL(key: UniqueKey()),
       Mode.day3Rotation => PlannerRotation(key: UniqueKey()),
-      Mode.day3RotationMultiColumn =>
-        PlannerRotateMultiColumns(key: UniqueKey()),
+      Mode.day3RotationMultiColumn => PlannerRotateMultiColumns(key: UniqueKey()),
     };
   }
 }

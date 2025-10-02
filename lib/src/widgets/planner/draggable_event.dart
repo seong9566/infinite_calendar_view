@@ -76,15 +76,11 @@ class DraggableEventWidget extends StatelessWidget {
         var dayIndex = (releaseOffsetX / dayWidth).toInt();
         // adjust negative index, because current day begin 0 and negative begin -1
         var reallyDayIndex = releaseOffsetX >= 0 ? dayIndex : dayIndex - 1;
-        var currentDay = plannerState?.initialDate
-                .add(Duration(days: reallyDayIndex))
-                .withoutTime ??
-            event.startTime.withoutTime;
+        var currentDay = plannerState?.initialDate.add(Duration(days: reallyDayIndex)).withoutTime ?? event.startTime.withoutTime;
 
         // find hour
         var scrollOffsetY = plannerState?.mainVerticalController.offset ?? 0;
-        var difference = (details.offset.dy - oldPositionY) +
-            (scrollOffsetY - oldVerticalOffset);
+        var difference = (details.offset.dy - oldPositionY) + (scrollOffsetY - oldVerticalOffset);
         var minuteDiff = difference / heightPerMinute;
 
         // exact event time
@@ -102,18 +98,9 @@ class DraggableEventWidget extends StatelessWidget {
 
         // round event time to nearest multiple of onSlotMinutesRound minutes
         var totalMinutes = exactStartDateTime.totalMinutes;
-        var totalMinutesRound =
-            onSlotMinutesRound * (totalMinutes / onSlotMinutesRound).round();
-        var roundStartDateTime = currentDay.add(
-          Duration(
-            minutes: totalMinutesRound,
-          ),
-        );
-        var roundEndDateTime = roundStartDateTime.add(
-          Duration(
-            minutes: duration,
-          ),
-        );
+        var totalMinutesRound = onSlotMinutesRound * (totalMinutes / onSlotMinutesRound).round();
+        var roundStartDateTime = currentDay.add(Duration(minutes: totalMinutesRound));
+        var roundEndDateTime = roundStartDateTime.add(Duration(minutes: duration));
 
         // find column
         var columnIndex = 0;
@@ -121,30 +108,20 @@ class DraggableEventWidget extends StatelessWidget {
         var columnsParam = plannerState?.widget.columnsParam;
         if (columnsParam != null && columnsParam.columns > 0) {
           for (var column = 0; column < columnsParam.columns; column++) {
-            var positions = columnsParam.getColumPositions(dayWidth, column);
+            var positions = columnsParam.getColumPositions(width, column);
             if (positions[0] <= dayPosition && dayPosition <= positions[1]) {
               columnIndex = column;
             }
           }
         }
 
-        onDragEnd.call(
-          columnIndex,
-          exactStartDateTime,
-          exactEndDateTime,
-          roundStartDateTime,
-          roundEndDateTime,
-        );
+        onDragEnd.call(columnIndex, exactStartDateTime, exactEndDateTime, roundStartDateTime, roundEndDateTime);
       },
       child: child,
     );
   }
 
-  void manageHorizontalScroll(
-    EventsPlannerState? plannerState,
-    BuildContext context,
-    DragUpdateDetails details,
-  ) {
+  void manageHorizontalScroll(EventsPlannerState? plannerState, BuildContext context, DragUpdateDetails details) {
     if (plannerState != null) {
       var horizontalController = plannerState.mainHorizontalController;
       var verticalController = plannerState.mainVerticalController;
@@ -171,10 +148,7 @@ class DraggableEventWidget extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: Opacity(
-        opacity: defaultDraggableOpacity,
-        child: child,
-      ),
+      child: Opacity(opacity: defaultDraggableOpacity, child: child),
     );
   }
 }

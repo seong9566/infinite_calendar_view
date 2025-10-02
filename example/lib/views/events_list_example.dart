@@ -30,10 +30,7 @@ class _EventsListViewState extends State<EventsListView> {
         const SizedBox(height: 8.0),
         buildCalendar(),
         const SizedBox(height: 4.0),
-        Divider(
-          color: Theme.of(context).colorScheme.outlineVariant,
-          height: 2,
-        ),
+        Divider(color: Theme.of(context).colorScheme.outlineVariant, height: 2),
         Expanded(
           child: EventsList(
             key: listViewKey,

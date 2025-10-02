@@ -162,9 +162,7 @@ class DefaultMonthDayEvent extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: event.color,
-            border: event.isFullDay
-                ? Border(left: BorderSide(color: event.textColor, width: 3))
-                : null,
+            border: event.isFullDay ? Border(left: BorderSide(color: event.textColor, width: 3)) : null,
           ),
           child: Padding(
             padding: padding,

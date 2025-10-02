@@ -40,8 +40,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    var color =
-        darkMode ? Colors.white : Theme.of(context).colorScheme.onPrimary;
+    var color = darkMode ? Colors.white : Theme.of(context).colorScheme.onPrimary;
     return AppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

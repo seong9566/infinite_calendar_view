@@ -25,9 +25,15 @@ class PlannerEventsDrag extends StatelessWidget {
       heightPerMinute: heightPerMinute,
       initialVerticalScrollOffset: initialVerticalScrollOffset,
       dayParam: DayParam(
+        onSlotMinutesRound: 30,
         dayEventBuilder: (event, height, width, heightPerMinute) {
           return draggableEvent(context, event, height, width);
         },
+        slotSelectionParam: SlotSelectionParam(
+          enableTapSlotSelection: true,
+          enableLongPressSlotSelection: true,
+          onSlotSelectionTap: (slot) => showSnack(context, slot.startDateTime.toString() + " : " + slot.durationInMinutes.toString()),
+        ),
       ),
       daysHeaderParam: DaysHeaderParam(
         daysHeaderVisibility: daysShowed != 1,
@@ -45,13 +51,11 @@ class PlannerEventsDrag extends StatelessWidget {
     );
   }
 
-  DefaultDayHeader getDayHeader(
-      DateTime day, bool isToday, BuildContext context) {
+  DefaultDayHeader getDayHeader(DateTime day, bool isToday, BuildContext context) {
     return DefaultDayHeader(
       dayText: DateFormat("E d").format(day),
       isToday: isToday,
-      foregroundColor:
-          isDarkMode ? Theme.of(context).colorScheme.primary : null,
+      foregroundColor: isDarkMode ? Theme.of(context).colorScheme.primary : null,
     );
   }
 

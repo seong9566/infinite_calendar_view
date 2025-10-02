@@ -86,8 +86,7 @@ class EventsListState extends State<EventsList> {
   @override
   void initState() {
     super.initState();
-    initialDay =
-        widget.initialDate?.withoutTime ?? widget.controller.focusedDay;
+    initialDay = widget.initialDate?.withoutTime ?? widget.controller.focusedDay;
     stickyDay = initialDay;
     mainVerticalController = ScrollController();
   }
@@ -211,7 +210,6 @@ class _DayEventsState extends State<DayEvents> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.dayEventsBuilder?.call(widget.day.withoutTime, events) ??
-        DefaultDayEvents(events: events);
+    return widget.dayEventsBuilder?.call(widget.day.withoutTime, events) ?? DefaultDayEvents(events: events);
   }
 }

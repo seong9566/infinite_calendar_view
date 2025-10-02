@@ -131,12 +131,7 @@ List<Event> generateRandomEvents(int count, {int columnIndex = 0}) {
     // Random start time (current day, random hour between 8 and 18)
     final startHour = 8 + random.nextInt(10);
     final startMinute = random.nextInt(60);
-    final startTime = DateTime(
-        _now.year,
-        _now.month,
-        _now.day + random.nextInt(150) - 75,
-        startHour.toInt(),
-        startMinute.toInt());
+    final startTime = DateTime(_now.year, _now.month, _now.day + random.nextInt(150) - 75, startHour.toInt(), startMinute.toInt());
 
     // Random duration (1-3 hours)
     final duration = 1 + random.nextInt(2);
@@ -214,12 +209,7 @@ List<Event> generateReservationRandomEvents(int count) {
     // Random start time (current day, random hour between 8 and 18)
     final startHour = 8 + random.nextInt(10);
     final startMinute = 0;
-    final startTime = DateTime(
-        _now.year,
-        _now.month,
-        _now.day + random.nextInt(60) - 30,
-        startHour.toInt(),
-        startMinute.toInt());
+    final startTime = DateTime(_now.year, _now.month, _now.day + random.nextInt(60) - 30, startHour.toInt(), startMinute.toInt());
 
     // Random duration (1-3 hours)
     final duration = 1;
@@ -243,12 +233,6 @@ List<Event> generateReservationRandomEvents(int count) {
 }
 
 List<OffTimeRange> getHalfTimeRange() => [
-      OffTimeRange(
-        TimeOfDay(hour: 0, minute: 0),
-        TimeOfDay(hour: 9, minute: 0),
-      ),
-      OffTimeRange(
-        TimeOfDay(hour: 13, minute: 0),
-        TimeOfDay(hour: 24, minute: 0),
-      ),
+      OffTimeRange(TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 9, minute: 0)),
+      OffTimeRange(TimeOfDay(hour: 13, minute: 0), TimeOfDay(hour: 24, minute: 0)),
     ];

@@ -40,21 +40,17 @@ class LinesPainter extends CustomPainter {
       final hourY = i * cellHeight;
       final halfHourY = hourY + cellHeight / 2;
       canvas.drawLine(Offset(0, hourY), Offset(size.width, hourY), hourPaint);
-      canvas.drawLine(
-          Offset(0, halfHourY), Offset(size.width, halfHourY), halfHourPaint);
+      canvas.drawLine(Offset(0, halfHourY), Offset(size.width, halfHourY), halfHourPaint);
 
       if (heightPerMinute > 2) {
         final quarterHourY15 = hourY + cellHeight / 4;
         final quarterHourY45 = hourY + (cellHeight / 4) * 3;
-        canvas.drawLine(Offset(0, quarterHourY15),
-            Offset(size.width, quarterHourY15), quarterHourPaint);
-        canvas.drawLine(Offset(0, quarterHourY45),
-            Offset(size.width, quarterHourY45), quarterHourPaint);
+        canvas.drawLine(Offset(0, quarterHourY15), Offset(size.width, quarterHourY15), quarterHourPaint);
+        canvas.drawLine(Offset(0, quarterHourY45), Offset(size.width, quarterHourY45), quarterHourPaint);
       }
     }
     // draw 24:00
-    canvas.drawLine(Offset(0, 24 * cellHeight),
-        Offset(size.width, 24 * cellHeight), hourPaint);
+    canvas.drawLine(Offset(0, 24 * cellHeight), Offset(size.width, 24 * cellHeight), hourPaint);
   }
 
   @override
@@ -77,10 +73,8 @@ class TimeIndicatorPainter extends CustomPainter {
       final currentTimePaint = Paint()
         ..color = color
         ..strokeWidth = 0.75;
-      var currentTimeLineY =
-          heightPerMinute * (currentTime.hour * 60 + currentTime.minute);
-      canvas.drawLine(Offset(0, currentTimeLineY),
-          Offset(size.width, currentTimeLineY), currentTimePaint);
+      var currentTimeLineY = heightPerMinute * (currentTime.hour * 60 + currentTime.minute);
+      canvas.drawLine(Offset(0, currentTimeLineY), Offset(size.width, currentTimeLineY), currentTimePaint);
       canvas.drawCircle(Offset(1, currentTimeLineY), 3, currentTimePaint);
     }
   }
@@ -112,8 +106,7 @@ class HoursPainter extends CustomPainter {
   final Color currentHourIndicatorColor;
   final double halfHourMinHeightPerMinute;
   final double quarterHourMinHeightPerMinute;
-  final TextPainter Function(TimeOfDay time, Color defaultColor)?
-      textPainterBuilder;
+  final TextPainter Function(TimeOfDay time, Color defaultColor)? textPainterBuilder;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -122,13 +115,7 @@ class HoursPainter extends CustomPainter {
     // draw currentHour
     var currentTime = TimeOfDay.now();
     if (showCurrentHour) {
-      drawHour(
-        canvas,
-        size,
-        currentTime,
-        currentTime.totalMinutes * heightPerMinute,
-        currentHourIndicatorColor,
-      );
+      drawHour(canvas, size, currentTime, currentTime.totalMinutes * heightPerMinute, currentHourIndicatorColor);
     }
 
     // draw normal hour
@@ -141,26 +128,20 @@ class HoursPainter extends CustomPainter {
 
       // half
       final halfY = hourY + (cellHeight / 2);
-      if (heightPerMinute > halfHourMinHeightPerMinute &&
-          !isHideByCurrentTime(currentTime, halfY)) {
-        drawHour(
-            canvas, size, TimeOfDay(hour: i, minute: 30), halfY, halfHourColor);
+      if (heightPerMinute > halfHourMinHeightPerMinute && !isHideByCurrentTime(currentTime, halfY)) {
+        drawHour(canvas, size, TimeOfDay(hour: i, minute: 30), halfY, halfHourColor);
       }
 
       // quart15
       final quarterY15 = hourY + (cellHeight / 4);
-      if (heightPerMinute > quarterHourMinHeightPerMinute &&
-          !isHideByCurrentTime(currentTime, quarterY15)) {
-        drawHour(canvas, size, TimeOfDay(hour: i, minute: 15), quarterY15,
-            quarterHourColor);
+      if (heightPerMinute > quarterHourMinHeightPerMinute && !isHideByCurrentTime(currentTime, quarterY15)) {
+        drawHour(canvas, size, TimeOfDay(hour: i, minute: 15), quarterY15, quarterHourColor);
       }
 
       // quart45
       final quarterY45 = hourY + (cellHeight / 4) * 3;
-      if (heightPerMinute > quarterHourMinHeightPerMinute &&
-          !isHideByCurrentTime(currentTime, quarterY45)) {
-        drawHour(canvas, size, TimeOfDay(hour: i, minute: 45), quarterY45,
-            quarterHourColor);
+      if (heightPerMinute > quarterHourMinHeightPerMinute && !isHideByCurrentTime(currentTime, quarterY45)) {
+        drawHour(canvas, size, TimeOfDay(hour: i, minute: 45), quarterY45, quarterHourColor);
       }
     }
 
@@ -172,8 +153,7 @@ class HoursPainter extends CustomPainter {
   }
 
   bool isHideByCurrentTime(TimeOfDay currentTime, double y) {
-    return showCurrentHour &&
-        ((currentTime.totalMinutes * heightPerMinute) - y).abs() <= 10;
+    return showCurrentHour && ((currentTime.totalMinutes * heightPerMinute) - y).abs() <= 10;
   }
 
   void drawHour(
@@ -183,8 +163,7 @@ class HoursPainter extends CustomPainter {
     double y,
     Color color,
   ) {
-    var textPainter = textPainterBuilder?.call(time, color) ??
-        getDefaultTextPainter(time, color);
+    var textPainter = textPainterBuilder?.call(time, color) ?? getDefaultTextPainter(time, color);
     textPainter.layout(
       minWidth: size.width,
       maxWidth: size.width,
@@ -195,16 +174,11 @@ class HoursPainter extends CustomPainter {
   TextPainter getDefaultTextPainter(TimeOfDay time, Color color) {
     return TextPainter(
       text: TextSpan(
-        text:
-            "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-        ),
+        text: "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
+        style: TextStyle(color: color, fontSize: 12),
       ),
       textDirection: textDirection,
-      textAlign:
-          textDirection == TextDirection.ltr ? TextAlign.right : TextAlign.left,
+      textAlign: textDirection == TextDirection.ltr ? TextAlign.right : TextAlign.left,
     );
   }
 
@@ -263,8 +237,7 @@ class ColumnPainter extends CustomPainter {
     var columnsTotalWidth = 0.0;
     final paint = Paint()..color = lineColor;
     for (var i = 0; i <= columnsParam.columns; i++) {
-      canvas.drawLine(Offset(columnsTotalWidth, 0),
-          Offset(columnsTotalWidth, size.height), paint);
+      canvas.drawLine(Offset(columnsTotalWidth, 0), Offset(columnsTotalWidth, size.height), paint);
 
       if (i != columnsParam.columns) {
         var columnWidth = columnsParam.getColumSize(width, i);

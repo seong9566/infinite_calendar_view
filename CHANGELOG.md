@@ -1,5 +1,11 @@
 ## 2.8.2
 
+- [lint] Linter 150 chars
+- [new] Interactive slot selection
+- [new] Round slot date tap or selection to previous hour
+
+## 2.8.2
+
 - [documentation] Add rotated view examples
 - [documentation] Showcase
 - [lint] Clean warning

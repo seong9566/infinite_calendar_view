@@ -14,8 +14,7 @@ class PlannerRotateMultiColumns extends StatefulWidget {
   });
 
   @override
-  State<PlannerRotateMultiColumns> createState() =>
-      _PlannerRotateMultiColumnsState();
+  State<PlannerRotateMultiColumns> createState() => _PlannerRotateMultiColumnsState();
 }
 
 class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
@@ -50,7 +49,7 @@ class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
             child: EventsPlanner(
               key: oneDayViewKey,
               controller: controller,
-              daysShowed: 2,
+              daysShowed: 1,
               textDirection: TextDirection.rtl,
               heightPerMinute: heightPerMinute,
               initialVerticalScrollOffset: initialVerticalScrollOffset,
@@ -59,7 +58,7 @@ class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
               // header
               daysHeaderParam: DaysHeaderParam(
                 daysHeaderVisibility: false,
-                daysHeaderHeight: 70,
+                daysHeaderHeight: 50,
                 daysHeaderColor: Theme.of(context).colorScheme.surface,
               ),
 
@@ -70,12 +69,20 @@ class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
 
               // personalize columns
               columnsParam: ColumnsParam(
-                columns: 7,
-                maxColumns: 3,
-                columnsWidthRatio: List.generate(7, (i) => 1 / 3),
+                columns: 6,
+                maxColumns: 6,
+                columnsWidthRatio: List.generate(6, (i) => 1 / 6),
                 columnHeaderBuilder: (day, isToday, columIndex, columnWidth) {
-                  return Avatar(
-                      columnWidth: columnWidth, columIndex: columIndex);
+                  return Container(
+                    height: 50,
+                    width: columnWidth - 1,
+                    child: RotatedBox(
+                      quarterTurns: 1,
+                      child: Center(
+                        child: Avatar(columIndex: columIndex),
+                      ),
+                    ),
+                  );
                 },
               ),
 
@@ -88,12 +95,10 @@ class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
                 dayEventBuilder: (event, height, width, heightPerMinute) {
                   return RotatedBox(
                     quarterTurns: 1,
-                    child: CustomEventWidgetExample(
-                        controller, event, height, width),
+                    child: CustomEventWidgetExample(controller, event, height, width),
                   );
                 },
-                onSlotTap: (columnIndex, exactDateTime, roundDateTime) =>
-                    showSnack(context, "Slot Tap column = ${columnIndex}"),
+                onSlotTap: (columnIndex, exactDateTime, roundDateTime) => showSnack(context, "Slot Tap column = ${columnIndex}"),
                 todayColor: Theme.of(context).colorScheme.surface,
               ),
             ),
