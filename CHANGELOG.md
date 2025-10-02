@@ -1,4 +1,4 @@
-## 2.8.2
+## 2.9.0
 
 - [lint] Linter 150 chars
 - [new] Interactive slot selection
