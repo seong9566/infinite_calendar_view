@@ -209,15 +209,16 @@ class DayWidget extends StatelessWidget {
                     left: columnPosition[0],
                     width: columnPosition[1] - columnPosition[0],
                     child: dayParam.slotSelectionParam.slotSelectionBuilder?.call(
-                            slot: slot,
-                            dayWidth: width,
-                            dayParam: dayParam,
-                            columnsParam: columnsParam,
-                            heightPerMinute: heightPerMinute,
-                            onChanged: (SlotSelection? updatedSlot) {
-                              controller.slotSelectionNotifier.value = updatedSlot;
-                              dayParam.slotSelectionParam.onSlotSelectionChange?.call(updatedSlot);
-                            }) ??
+                          slot,
+                          width,
+                          dayParam,
+                          columnsParam,
+                          heightPerMinute,
+                          (SlotSelection? updatedSlot) {
+                            controller.slotSelectionNotifier.value = updatedSlot;
+                            dayParam.slotSelectionParam.onSlotSelectionChange?.call(updatedSlot);
+                          },
+                        ) ??
                         InteractiveSlot(
                           slot: slot,
                           dayWidth: width,
@@ -241,7 +242,7 @@ class DayWidget extends StatelessWidget {
     );
   }
 
-  onSlotEvent(double width, double dx, double dy, bool tap, bool doubleTap, bool longPress) {
+  void onSlotEvent(double width, double dx, double dy, bool tap, bool doubleTap, bool longPress) {
     var exactDate = getExactDateTime(dy);
     var roundDate = getRoundDateTime(dy);
     var column = columnsParam.getColumnIndex(width, dx);

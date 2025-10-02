@@ -1,4 +1,5 @@
-import 'package:example/main.dart';
+import 'package:example/app.dart';
+import 'package:example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 import 'package:intl/intl.dart';
@@ -79,6 +80,17 @@ class EventsPlannerAllParamView extends StatelessWidget {
           heightPerMinute: heightPerMinute,
           isToday: isToday,
           lineColor: Colors.black12,
+        ),
+        slotSelectionParam: SlotSelectionParam(
+          enableTapSlotSelection: true,
+          enableLongPressSlotSelection: true,
+          enableDoubleTapSlotSelection: true,
+          clearWhenBackgroundTap: true,
+          slotSelectionDefaultDurationInMinutes: (columnIndex, date) => 60,
+          onSlotSelectionChange: (slot) {},
+          slotSelectionBuilder: (slot, dayWidth, dayParam, columnsParam, heightPerMinute, onChanged) => InteractiveSlot(
+              slot: slot, dayWidth: dayWidth, dayParam: dayParam, columnsParam: columnsParam, heightPerMinute: heightPerMinute, onChanged: onChanged),
+          onSlotSelectionTap: (slot) => showSnack(context, slot.startDateTime.toString() + " : " + slot.durationInMinutes.toString()),
         ),
       ),
       fullDayParam: FullDayParam(

@@ -1,3 +1,9 @@
+## 2.9.1
+
+- [documentation] Showcase dark mode and interactive slot selection
+- [documentation] Update readme
+- [documentation] Add simple example and move app
+
 ## 2.9.0
 
 - [lint] Linter 150 chars

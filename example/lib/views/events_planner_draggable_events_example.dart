@@ -1,5 +1,5 @@
+import 'package:example/app.dart';
 import 'package:example/extension.dart';
-import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 import 'package:intl/intl.dart';

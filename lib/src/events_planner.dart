@@ -966,14 +966,14 @@ class SlotSelectionParam {
   final Widget Function(SlotSelection slot)? slotSelectionContentBuilder;
 
   /// interactive slot selection builder
-  final Widget Function({
+  final Widget Function(
     SlotSelection slot,
     double dayWidth,
     DayParam dayParam,
     ColumnsParam columnsParam,
     double heightPerMinute,
     void Function(SlotSelection? updatedSlot) onChanged,
-  })? slotSelectionBuilder;
+  )? slotSelectionBuilder;
 
   /// event when tap on interactive slot
   final void Function(SlotSelection? slot)? onSlotSelectionChange;

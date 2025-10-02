@@ -1,5 +1,5 @@
+import 'package:example/app.dart';
 import 'package:example/data.dart';
-import 'package:example/main.dart';
 import 'package:example/utils.dart';
 import 'package:example/views/widgets/avatar.dart';
 import 'package:example/views/widgets/calendar.dart';

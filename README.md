@@ -42,55 +42,71 @@ https://pickywawa.github.io/infinite_calendar_view_demo/
    <tr>
       <td>
          <div style="text-align:center;">One day</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase1.png" alt="drawing" width="170"/>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase1.png" alt="drawing" width="220"/>
       </td>
       <td>
          <div style="text-align:center;">Multi days</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase9.png" alt="drawing" width="170"/>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase9.png" alt="drawing" width="220"/>
       </td>
       <td>
+         <div style="text-align:center;">Multi days RTL</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase12.png" alt="drawing" width="220"/>
+      </td>
+   </tr>
+   <tr>
+      <td>
          <div style="text-align:center;">List with sticky header</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase7.png" alt="drawing" width="170"/>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase7.png" alt="drawing" width="220"/>
       </td>
       <td>
          <div style="text-align:center;">Month</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase8.png" alt="drawing" width="170"/>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase8.png" alt="drawing" width="220"/>
+      </td>
+      <td>
+         <div style="text-align:center;">Month RTL</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase13.png" alt="drawing" width="220"/> 
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <div style="text-align:center;">Multi Columns - 2 days</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase6.png" alt="drawing" width="220"/>
+      </td>
+      <td>
+         <div style="text-align:center;">Columns (multi agendas)</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase5.png" alt="drawing" width="220"/>
+      </td>
+      <td>
+         <div style="text-align:center;">Columns other example</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase3.png" alt="drawing" width="170"/> 
       </td>
    </tr>
    <tr>
       <td>
          <div style="text-align:center;">Multi event types</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase4.png" alt="drawing" width="170"/>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase4.png" alt="drawing" width="220"/>
       </td>
       <td>
-         <div style="text-align:center;">Multi Columns - 2 days</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase6.png" alt="drawing" width="170"/>
+         <div style="text-align:center;">Rotated planner (3 days)</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase11.png" alt="drawing" width="220"/>
       </td>
       <td>
-         <div style="text-align:center;">Columns (multi agendas)</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase5.png" alt="drawing" width="170"/>
-      </td>
-      <td>
-         <div style="text-align:center;">Columns other example</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase3.png" alt="drawing" width="130"/> 
+         <div style="text-align:center;">Rotated planner multi-row</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase10.png" alt="drawing" width="220"/>
       </td>
    </tr>
    <tr>
       <td>
-         <div style="text-align:center;">Rotated planner (3 days)</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase11.png" alt="drawing" width="170"/>
+         <div style="text-align:center;">Dark Mode - Planner</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase14.png" alt="drawing" width="220"/>
       </td>
       <td>
-         <div style="text-align:center;">Rotated planner multi-row</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase10.png" alt="drawing" width="170"/>
+         <div style="text-align:center;">Dark Mode - List</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase16.png" alt="drawing" width="220"/>
       </td>
       <td>
-         <div style="text-align:center;">Planner RTL</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase12.png" alt="drawing" width="170"/>
-      </td>
-      <td>
-         <div style="text-align:center;">Month RTL</div>
-         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase13.png" alt="drawing" width="130"/> 
+         <div style="text-align:center;">Interactive slot selection</div>
+         <img src="https://raw.githubusercontent.com/pickywawa/infinite_calendar_view/master/readme_assets/showcase15.png" alt="drawing" width="220"/>
       </td>
    </tr>
 </table>
@@ -199,6 +215,16 @@ and [API docs](https://pub.dev/documentation/infinite_calendar_view/latest/) for
     );
     ```
 
+   For Month View
+
+    ```dart
+    Scaffold(
+        body: EventsMonths(
+          controller: controller,
+        ),
+    );
+    ```
+
    For List View
 
     ```dart
@@ -228,12 +254,14 @@ and [API docs](https://pub.dev/documentation/infinite_calendar_view/latest/) for
    To Add full day event:
 
     ```dart
-    final fullDayEvent = FullDayEvent(
-       title: "Full Day Event1"
+    final event = Event(
+       isFullDay: true,
+       startTime: DateTime(2024, 8, 10),
+       title: "Full Day Event"
     );
 
     controller.updateCalendarData((calendarData) {
-      calendarData.addFullDayEvents(DateTime(2024, 8, 10), [event]);
+      calendarData.addEvents([event]);
     });
    ```
 
@@ -312,7 +340,24 @@ and [API docs](https://pub.dev/documentation/infinite_calendar_view/latest/) for
    }
    ```
 
-3. Manage multiple calendars in the same view with multiple columns
+3. For interactive slot selection
+
+   Active enableTapSlotSelection init slot selection on tap
+   Active enableLongPressSlotSelection for draggable slot selection
+   Set onSlotMinutesRound for round slot to nearest slot
+   ```dart
+   EventsPlanner(
+      dayParam: DayParam(
+        onSlotMinutesRound: 30,
+        slotSelectionParam: SlotSelectionParam(
+          enableTapSlotSelection: true,
+          enableLongPressSlotSelection: true,
+        ),
+      ),
+   )
+   ```
+
+4. Manage multiple calendars in the same view with multiple columns
 
    Set columnIndex in Event
    ```dart
