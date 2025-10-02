@@ -29,6 +29,7 @@ https://pickywawa.github.io/infinite_calendar_view_demo/
 - 🎲 **Customizable number of days**. Depending on the screen size
 - 🤏 **Pinch to zoom**. Change the time scale with two fingers or ctrl/cmd + mouse wheel
 - 👆🏼 **Drag and drop**. Move appointments easily
+- 👆🏼 **Interactive slot selection**. Move appointments easily
 - 👩‍👧‍👦 **Multi columns**. Manage multiple calendars in the same view !
 - 🗓️ **Events arranger**. Customize the placement of appointments (for each event type) in the
   schedule
