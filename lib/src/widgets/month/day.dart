@@ -105,9 +105,9 @@ class DraggableMonthEvent extends StatelessWidget {
   Widget build(BuildContext context) {
     return LongPressDraggable(
       data: onDragEnd,
-      child: child,
       feedback: draggableFeedback ?? getDefaultDraggableFeedback(),
       childWhenDragging: SizedBox.shrink(),
+      child: child,
     );
   }
 
@@ -162,7 +162,9 @@ class DefaultMonthDayEvent extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: event.color,
-            border: event.isFullDay ? Border(left: BorderSide(color: event.textColor, width: 3)) : null,
+            border: event.isFullDay
+                ? Border(left: BorderSide(color: event.textColor, width: 3))
+                : null,
           ),
           child: Padding(
             padding: padding,

@@ -1,6 +1,6 @@
 name: infinite_calendar_view
 description: Easily build your different views of your calendar with this package. Month, week, three days, one day, list ... and many features.
-version: 2.9.1
+version: 2.9.2
 homepage: https://github.com/pickywawa/infinite_calendar_view
 issue_tracker: https://github.com/pickywawa/infinite_calendar_view/issues
 
@@ -14,6 +14,6 @@ dependencies:
   sticky_infinite_list: ^4.0.1    # infinite listview for events days list
 
 dev_dependencies:
-  lints:
+  flutter_lints: any
   flutter_test:
     sdk: flutter

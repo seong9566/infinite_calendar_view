@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 
 showSnack(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -16,11 +17,7 @@ showSnack(BuildContext context, String text) {
 }
 
 String getSlotHourText(DateTime start, DateTime end) {
-  return start.hour.toString().padLeft(2, '0') +
-      ":" +
-      start.hour.toString().padLeft(2, '0') +
-      "\n" +
-      end.hour.toString().padLeft(2, '0') +
-      ":" +
-      end.hour.toString().padLeft(2, '0');
+  var startDate = "${start.hour.toTimeText()}:${start.minute.toTimeText()}";
+  var endDate = "${end.hour.toTimeText()}:${end.minute.toTimeText()}";
+  return "${startDate}\n${endDate}";
 }

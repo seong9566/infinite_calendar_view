@@ -9,7 +9,8 @@ extension DateTimeExtensions on DateTime {
   /// Then this getter will return 12*60 + 4 which evaluates to 724.
   int get totalMinutes => hour * 60 + minute;
 
-  int getDayDifference(DateTime date) => withoutTime.difference(date.withoutTime).inDays;
+  int getDayDifference(DateTime date) =>
+      withoutTime.difference(date.withoutTime).inDays;
 
   /// get startOfWeek day depending on the desired starting day of the week
   DateTime startOfWeek(int weekday) {
@@ -30,8 +31,15 @@ extension StringExtension on String {
   }
 }
 
+extension IntegerExtension on int {
+  String toTimeText() {
+    return toString().padLeft(2, '0');
+  }
+}
+
 extension BuildContextExtension on BuildContext {
-  bool get isDarkMode => Theme.of(this).colorScheme.surface.computeLuminance() < 0.128;
+  bool get isDarkMode =>
+      Theme.of(this).colorScheme.surface.computeLuminance() < 0.128;
 }
 
 extension ColorBrightness on Color {
@@ -45,7 +53,8 @@ extension ColorBrightness on Color {
   Color lighten([double amount = .1]) {
     assert(amount >= 0 && amount <= 1);
     final hsl = HSLColor.fromColor(this);
-    final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+    final hslLight =
+        hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
     return hslLight.toColor();
   }
 }

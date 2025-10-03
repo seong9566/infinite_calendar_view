@@ -12,7 +12,8 @@ enum Mode {
   day3RTL("Three days RTL (Arabic, Hebrew etc.)", Icons.view_column),
   monthRTL("Month RTL (Arabic, Hebrew etc.)", Icons.calendar_month),
   day3Rotation("Three days horizontal (rotation)", Icons.view_list),
-  day3RotationMultiColumn("Three days horizontal (rotation) with multi column", Icons.view_list),
+  day3RotationMultiColumn(
+      "Three days horizontal (rotation) with multi column", Icons.view_list),
   ;
 
   const Mode(this.text, this.icon);

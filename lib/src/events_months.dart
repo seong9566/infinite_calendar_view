@@ -21,7 +21,9 @@ class EventsMonths extends StatefulWidget {
     this.daysParam = const DaysParam(),
     this.onMonthChange,
     this.automaticAdjustScrollToStartOfMonth = true,
-    this.verticalScrollPhysics = const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+    this.verticalScrollPhysics = const BouncingScrollPhysics(
+      decelerationRate: ScrollDecelerationRate.fast,
+    ),
     this.showWebScrollBar = false,
     this.pinchToZoomParam = const PinchToZoom(),
   });
@@ -97,7 +99,8 @@ class EventsMonthsState extends State<EventsMonths> {
     if (widget.automaticAdjustScrollToStartOfMonth) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         automaticScrollAdjustListener = getAutomaticScrollAdjustListener();
-        scrollController.position.isScrollingNotifier.addListener(automaticScrollAdjustListener);
+        scrollController.position.isScrollingNotifier
+            .addListener(automaticScrollAdjustListener);
       });
     }
   }
@@ -107,12 +110,15 @@ class EventsMonthsState extends State<EventsMonths> {
   VoidCallback getAutomaticScrollAdjustListener() {
     return () {
       scrollIsStopped = !scrollController.position.isScrollingNotifier.value;
-      if (scrollIsStopped && ((scrollStartOffset - scrollController.offset).abs() > 10)) {
+      if (scrollIsStopped &&
+          ((scrollStartOffset - scrollController.offset).abs() > 10)) {
         var scroll = scrollController;
         if (!_blockAdjustScroll) {
           var adjustedOffset = _stickyPercent < 0.5
               ? scroll.offset - _stickyOffset + 1
-              : scroll.offset + (((1 - _stickyPercent) * _stickyOffset) / _stickyPercent) + 1;
+              : scroll.offset +
+                  (((1 - _stickyPercent) * _stickyOffset) / _stickyPercent) +
+                  1;
 
           Future.delayed(const Duration(milliseconds: 1), () {
             if (scrollIsStopped) {
@@ -161,7 +167,8 @@ class EventsMonthsState extends State<EventsMonths> {
                 ),
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (notification) {
-                    if (widget.automaticAdjustScrollToStartOfMonth && notification is ScrollStartNotification) {
+                    if (widget.automaticAdjustScrollToStartOfMonth &&
+                        notification is ScrollStartNotification) {
                       scrollStartOffset = scrollController.offset;
                     }
                     return true;
@@ -173,15 +180,19 @@ class EventsMonthsState extends State<EventsMonths> {
                       direction: InfiniteListDirection.multi,
                       negChildCount: widget.maxPreviousMonth,
                       posChildCount: widget.maxNextMonth,
-                      physics: isZoom && _pointerDownCount > 1 ? const NeverScrollableScrollPhysics() : widget.verticalScrollPhysics,
+                      physics: isZoom && _pointerDownCount > 1
+                          ? const NeverScrollableScrollPhysics()
+                          : widget.verticalScrollPhysics,
                       builder: (context, index) {
-                        var month = DateTime(initialMonth.year, initialMonth.month + index);
+                        var month = DateTime(
+                            initialMonth.year, initialMonth.month + index);
                         return InfiniteListItem(
                           headerStateBuilder: (context, state) {
                             if (state.sticky && _stickyMonth != month) {
                               _stickyMonth = month;
                               Future(() {
-                                widget.controller.updateFocusedDay(_stickyMonth);
+                                widget.controller
+                                    .updateFocusedDay(_stickyMonth);
                                 widget.onMonthChange?.call(_stickyMonth);
                               });
                             }
@@ -236,7 +247,9 @@ class EventsMonthsState extends State<EventsMonths> {
     var eventHeight = dayParam.eventHeight;
     var space = dayParam.eventSpacing;
     var beforeEventSpacing = dayParam.spaceBetweenHeaderAndEvents;
-    return ((dayHeight - headerHeight - beforeEventSpacing + space) / (eventHeight + space)).toInt();
+    return ((dayHeight - headerHeight - beforeEventSpacing + space) /
+            (eventHeight + space))
+        .toInt();
   }
 
   void _onScaleStart(ScaleStartDetails details) {
@@ -268,8 +281,10 @@ class EventsMonthsState extends State<EventsMonths> {
     widget.pinchToZoomParam.onZoomChange?.call(weekHeight);
     if (widget.automaticAdjustScrollToStartOfMonth) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.position.isScrollingNotifier.removeListener(automaticScrollAdjustListener);
-        scrollController.position.isScrollingNotifier.addListener(automaticScrollAdjustListener);
+        scrollController.position.isScrollingNotifier
+            .removeListener(automaticScrollAdjustListener);
+        scrollController.position.isScrollingNotifier
+            .addListener(automaticScrollAdjustListener);
       });
     }
   }
@@ -371,7 +386,8 @@ class DaysParam {
   /// day header text builder without change style
   final String Function(DateTime day)? dayHeaderTextBuilder;
 
-  final Widget Function(Event event, double? width, double? height)? dayEventBuilder;
+  final Widget Function(Event event, double? width, double? height)?
+      dayEventBuilder;
 
   final Widget Function(int count, DateTime day)? dayMoreEventsBuilder;
 

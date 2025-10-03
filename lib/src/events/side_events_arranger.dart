@@ -23,7 +23,12 @@ class SideEventArranger extends EventArranger {
 
     // determine conflict to each event
     for (var event in events) {
-      var conflicts = events.where((e) => e != event && e.startTime.isBefore(event.endTime!) == true && e.endTime!.isAfter(event.startTime)).toList();
+      var conflicts = events
+          .where((e) =>
+              e != event &&
+              e.startTime.isBefore(event.endTime!) == true &&
+              e.endTime!.isAfter(event.startTime))
+          .toList();
       eventsConflict[event] = conflicts;
 
       // complete conflict groups
@@ -47,7 +52,10 @@ class SideEventArranger extends EventArranger {
       }
       // conflicts : search free column (no already planned)
       else {
-        var alreadyPlacedColumn = eventEntry.value.map((c) => eventsColumn[c]).where((e) => e != null).toSet();
+        var alreadyPlacedColumn = eventEntry.value
+            .map((c) => eventsColumn[c])
+            .where((e) => e != null)
+            .toSet();
         var column = 0;
         while (alreadyPlacedColumn.contains(column)) {
           column++;
@@ -61,7 +69,12 @@ class SideEventArranger extends EventArranger {
 
       // count column conflict for event
       // bug : no just see conflict of conflict event -> see recursive
-      var columnSet = eventsConflictGroup[event]!.map((c) => eventsColumn[c]).where((e) => e != null).toSet().where((e) => e != null).toSet();
+      var columnSet = eventsConflictGroup[event]!
+          .map((c) => eventsColumn[c])
+          .where((e) => e != null)
+          .toSet()
+          .where((e) => e != null)
+          .toSet();
       columnSet.add(columnIndex);
       var maxColumn = columnSet.length;
 

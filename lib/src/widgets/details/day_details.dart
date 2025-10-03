@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/src/utils/default_text.dart';
+import 'package:infinite_calendar_view/src/utils/extension.dart';
 
 import '../../events/event.dart';
 
@@ -24,7 +25,9 @@ class DefaultDayEvents extends StatelessWidget {
   );
 
   static const defaultEmptyEventsWidget = Padding(
-    padding: EdgeInsets.symmetric(vertical: defaultVerticalSmallPadding, horizontal: defaultHorizontalPadding),
+    padding: EdgeInsets.symmetric(
+        vertical: defaultVerticalSmallPadding,
+        horizontal: defaultHorizontalPadding),
     child: Text(defaultNoEventText, textAlign: TextAlign.left),
   );
 
@@ -57,7 +60,8 @@ class DefaultDayEvents extends StatelessWidget {
       return emptyEventsWidget;
     }
     return Column(
-      children: events?.map((event) => getEventAndSeparator(event)).toList() ?? [],
+      children:
+          events?.map((event) => getEventAndSeparator(event)).toList() ?? [],
     );
   }
 
@@ -66,7 +70,9 @@ class DefaultDayEvents extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         eventBuilder?.call(event) ?? DefaultDetailEvent(event: event),
-        if (eventSeparator != null && events!.indexOf(event) != events!.length - 1) eventSeparator!,
+        if (eventSeparator != null &&
+            events!.indexOf(event) != events!.length - 1)
+          eventSeparator!,
       ],
     );
   }
@@ -133,7 +139,8 @@ class DefaultDetailEvent extends StatelessWidget {
     } else {
       var startTime = event.startTime;
       timeText = this.timeText ?? getDefaultTimeText(startTime);
-      durationText = this.durationText ?? this.getDefaultDurationText(event.startTime, event.endTime!);
+      durationText = this.durationText ??
+          getDefaultDurationText(event.startTime, event.endTime!);
     }
 
     return InkWell(
@@ -222,7 +229,10 @@ class DefaultDetailEvent extends StatelessWidget {
           if (durationText != null)
             Text(
               durationText,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Theme.of(context).colorScheme.outline),
             ),
         ],
       ),
@@ -230,7 +240,7 @@ class DefaultDetailEvent extends StatelessWidget {
   }
 
   String getDefaultTimeText(DateTime startTime) {
-    return "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
+    return "${startTime.hour.toTimeText()}:${startTime.minute.toTimeText()}";
   }
 
   String getDefaultDurationText(DateTime startDate, DateTime endDate) {
@@ -241,7 +251,7 @@ class DefaultDetailEvent extends StatelessWidget {
     }
     var minutes = duration.inMinutes.remainder(60);
     if (minutes > 0) {
-      element.add("${minutes}${duration.inHours == 0 ? "m" : ""}");
+      element.add("$minutes${duration.inHours == 0 ? "m" : ""}");
     }
     return element.join("");
   }

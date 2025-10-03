@@ -24,7 +24,8 @@ List<List<Event?>> getShowedWeekEvents(
     // compute index to place line
     while (index < dayPlacedEvents.length && dayPlacedEvents[index] != null) {
       var placedEvent = dayPlacedEvents[index]!;
-      if (eventToPlace.startTime.millisecondsSinceEpoch > placedEvent.startTime.millisecondsSinceEpoch) {
+      if (eventToPlace.startTime.millisecondsSinceEpoch >
+          placedEvent.startTime.millisecondsSinceEpoch) {
         index++;
       } else {
         break;
@@ -42,13 +43,17 @@ List<List<Event?>> getShowedWeekEvents(
 }
 
 // generate sorted map of all multi days events on week
-SplayTreeMap<UniqueKey, Map<int, Event>> getWeekMultiDaysEventsSortedMap(List<List<Event>?> weekEvents) {
+SplayTreeMap<UniqueKey, Map<int, Event>> getWeekMultiDaysEventsSortedMap(
+    List<List<Event>?> weekEvents) {
   // generate map of all multi days events
   Map<UniqueKey, Map<int, Event>> multiDaysEventsMap = {};
   for (var day = 0; day < 7; day++) {
     var multiDaysEvents = weekEvents[day]?.where((e) => e.isMultiDay);
     for (Event event in multiDaysEvents ?? []) {
-      multiDaysEventsMap[event.uniqueId] = {...multiDaysEventsMap[event.uniqueId] ?? {}, day: event};
+      multiDaysEventsMap[event.uniqueId] = {
+        ...multiDaysEventsMap[event.uniqueId] ?? {},
+        day: event
+      };
     }
   }
 

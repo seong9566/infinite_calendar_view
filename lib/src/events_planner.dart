@@ -34,7 +34,9 @@ class EventsPlanner extends StatefulWidget {
     this.minVerticalScrollOffset,
     this.maxVerticalScrollOffset,
     this.onVerticalScrollChange,
-    this.horizontalScrollPhysics = const BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
+    this.horizontalScrollPhysics = const BouncingScrollPhysics(
+      decelerationRate: ScrollDecelerationRate.fast,
+    ),
     this.verticalScrollPhysics,
     this.automaticAdjustHorizontalScrollToDay = true,
     this.onAutomaticAdjustHorizontalScroll,
@@ -161,12 +163,16 @@ class EventsPlannerState extends State<EventsPlanner> {
     super.initState();
     heightPerMinute = widget.heightPerMinute;
     _controller = widget.controller;
-    initialDate = widget.initialDate?.withoutTime ?? widget.controller.focusedDay;
+    initialDate =
+        widget.initialDate?.withoutTime ?? widget.controller.focusedDay;
     currentIndex = 0;
-    mainVerticalController = ScrollController(initialScrollOffset: widget.initialVerticalScrollOffset);
+    mainVerticalController = ScrollController(
+      initialScrollOffset: widget.initialVerticalScrollOffset,
+    );
 
     // synchronize horizontal scroll between days events / full day events / days header
-    if (widget.daysHeaderParam.daysHeaderVisibility || widget.fullDayParam.fullDayEventsBarVisibility) {
+    if (widget.daysHeaderParam.daysHeaderVisibility ||
+        widget.fullDayParam.fullDayEventsBarVisibility) {
       mainHorizontalController.addListener(() {
         headersHorizontalController.jumpTo(mainHorizontalController.offset);
       });
@@ -179,7 +185,8 @@ class EventsPlannerState extends State<EventsPlanner> {
       // Automatic adjust horizontal scroll to nearest day
       if (widget.automaticAdjustHorizontalScrollToDay) {
         automaticScrollAdjustListener = getAutomaticScrollAdjustListener();
-        mainHorizontalController.position.isScrollingNotifier.addListener(automaticScrollAdjustListener);
+        mainHorizontalController.position.isScrollingNotifier
+            .addListener(automaticScrollAdjustListener);
       }
 
       // init vertical scroll listener when scroll stop
@@ -192,16 +199,19 @@ class EventsPlannerState extends State<EventsPlanner> {
       }
 
       // limit day range
-      if (widget.minVerticalScrollOffset != null || widget.maxVerticalScrollOffset != null) {
+      if (widget.minVerticalScrollOffset != null ||
+          widget.maxVerticalScrollOffset != null) {
         mainVerticalController.addListener(() {
           var minOffset = widget.minVerticalScrollOffset;
           var maxOffset = widget.maxVerticalScrollOffset;
           if (_plannerPointerDownCount < 2) {
-            if (minOffset != null && mainVerticalController.offset < minOffset) {
+            if (minOffset != null &&
+                mainVerticalController.offset < minOffset) {
               mainVerticalController.jumpTo(minOffset);
             }
             if (maxOffset != null) {
-              var maxScrollExtent = mainVerticalController.position.maxScrollExtent;
+              var maxScrollExtent =
+                  mainVerticalController.position.maxScrollExtent;
               var dayOffset = heightPerMinute * 60 * 24;
               var maxOffsetExtend = maxScrollExtent - (dayOffset - maxOffset);
               if (mainVerticalController.offset > maxOffsetExtend) {
@@ -236,7 +246,8 @@ class EventsPlannerState extends State<EventsPlanner> {
           currentIndex = index;
           var currentDay = widget.textDirection == TextDirection.ltr
               ? initialDate.add(Duration(days: currentIndex))
-              : initialDate.subtract(Duration(days: currentIndex + widget.daysShowed - 1));
+              : initialDate.subtract(
+                  Duration(days: currentIndex + widget.daysShowed - 1));
           widget.onDayChange?.call(currentDay);
           widget.controller.updateFocusedDay(currentDay);
           topLeftCellValueNotifier.value = currentDay;
@@ -258,10 +269,13 @@ class EventsPlannerState extends State<EventsPlanner> {
         if (nearestDayOffset != scroll.offset) {
           // adjust scroll
           Future.delayed(const Duration(milliseconds: 1), () {
-            scroll.animateTo(nearestDayOffset, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+            scroll.animateTo(nearestDayOffset,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeIn);
 
             // event
-            var adjustedDay = initialDate.add(Duration(days: (nearestDayOffset / dayWidth).toInt()));
+            var adjustedDay = initialDate
+                .add(Duration(days: (nearestDayOffset / dayWidth).toInt()));
             widget.onAutomaticAdjustHorizontalScroll?.call(adjustedDay);
           });
         }
@@ -274,10 +288,11 @@ class EventsPlannerState extends State<EventsPlanner> {
 
     //  listen ctrl or cmd key to zoom in web/desktop
     if (widget.pinchToZoomParam.pinchToZoom) {
-      final isModifierPressed = pressed.contains(LogicalKeyboardKey.controlLeft) ||
-          pressed.contains(LogicalKeyboardKey.controlRight) ||
-          pressed.contains(LogicalKeyboardKey.metaLeft) ||
-          pressed.contains(LogicalKeyboardKey.metaRight);
+      final isModifierPressed =
+          pressed.contains(LogicalKeyboardKey.controlLeft) ||
+              pressed.contains(LogicalKeyboardKey.controlRight) ||
+              pressed.contains(LogicalKeyboardKey.metaLeft) ||
+              pressed.contains(LogicalKeyboardKey.metaRight);
       if (isModifierPressed != _isKeyboardZoomActive) {
         setState(() => _isKeyboardZoomActive = isModifierPressed);
       }
@@ -287,11 +302,15 @@ class EventsPlannerState extends State<EventsPlanner> {
 
   @override
   Widget build(BuildContext context) {
-    var _dayParam = widget.dayParam;
-    var _plannerHeight = (heightPerMinute * 60 * 24) + _dayParam.dayTopPadding + _dayParam.dayBottomPadding;
-    var _daySeparationWidthPadding = widget.daySeparationWidth / 2;
-    var _todayColor = _dayParam.todayColor ?? getDefaultTodayColor(context);
-    var _currentHourIndicatorColor = widget.currentHourIndicatorParam.currentHourIndicatorColor ?? getDefaultHourIndicatorColor(context);
+    var dayParam = widget.dayParam;
+    var plannerHeight = (heightPerMinute * 60 * 24) +
+        dayParam.dayTopPadding +
+        dayParam.dayBottomPadding;
+    var daySeparationWidthPadding = widget.daySeparationWidth / 2;
+    var todayColor = dayParam.todayColor ?? getDefaultTodayColor(context);
+    var currentHourIndicatorColor =
+        widget.currentHourIndicatorParam.currentHourIndicatorColor ??
+            getDefaultHourIndicatorColor(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -299,35 +318,36 @@ class EventsPlannerState extends State<EventsPlanner> {
         height = constraints.maxHeight;
         var leftWidget = widget.timesIndicatorsParam.timesIndicatorsWidth;
         dayWidth = (width - leftWidget) / widget.daysShowed;
-        var _onColumnIndexChanged = (int newStartColumnIndex) {
+        onColumnIndexChanged(int newStartColumnIndex) {
           setState(() {
             _startColumnIndex = newStartColumnIndex;
           });
-        };
+        }
 
         return Column(
           children: [
             // top days header
-            if (widget.daysHeaderParam.daysHeaderVisibility || widget.columnsParam.columns > 1)
+            if (widget.daysHeaderParam.daysHeaderVisibility ||
+                widget.columnsParam.columns > 1)
               getHorizontalDaysIndicatorWidget(
                 _startColumnIndex,
-                _onColumnIndexChanged,
+                onColumnIndexChanged,
               ),
 
             // full day events
             if (widget.fullDayParam.fullDayEventsBarVisibility)
               getHorizontalFullDayEventsWidget(
-                _daySeparationWidthPadding,
-                _todayColor,
+                daySeparationWidthPadding,
+                todayColor,
               ),
 
             // days content
             Expanded(
               child: getPlannerAndTimesWidget(
-                _plannerHeight,
-                _currentHourIndicatorColor,
-                _todayColor,
-                _daySeparationWidthPadding,
+                plannerHeight,
+                currentHourIndicatorColor,
+                todayColor,
+                daySeparationWidthPadding,
               ),
             ),
           ],
@@ -337,14 +357,22 @@ class EventsPlannerState extends State<EventsPlanner> {
   }
 
   Color getDefaultTodayColor(BuildContext context) {
-    return context.isDarkMode ? Theme.of(context).colorScheme.surface.lighten(0.03) : Theme.of(context).colorScheme.primaryContainer.lighten(0.04);
+    return context.isDarkMode
+        ? Theme.of(context).colorScheme.surface.lighten(0.03)
+        : Theme.of(context).colorScheme.primaryContainer.lighten(0.04);
   }
 
   Color getDefaultHourIndicatorColor(BuildContext context) {
-    return context.isDarkMode ? Theme.of(context).colorScheme.primary.lighten() : Theme.of(context).colorScheme.primary.darken();
+    return context.isDarkMode
+        ? Theme.of(context).colorScheme.primary.lighten()
+        : Theme.of(context).colorScheme.primary.darken();
   }
 
-  Widget getPlannerAndTimesWidget(double plannerHeight, Color currentHourIndicatorColor, Color todayColor, double daySeparationWidthPadding) {
+  Widget getPlannerAndTimesWidget(
+      double plannerHeight,
+      Color currentHourIndicatorColor,
+      Color todayColor,
+      double daySeparationWidthPadding) {
     var zoom = widget.pinchToZoomParam;
     var canZoom = zoom.pinchToZoom;
     return GestureDetector(
@@ -365,7 +393,8 @@ class EventsPlannerState extends State<EventsPlanner> {
               dragDevices: PointerDeviceKind.values.toSet(),
             ),
             child: CustomScrollView(
-              physics: canZoom && (_plannerPointerDownCount > 1 || _isKeyboardZoomActive)
+              physics: canZoom &&
+                      (_plannerPointerDownCount > 1 || _isKeyboardZoomActive)
                   ? const NeverScrollableScrollPhysics()
                   : widget.verticalScrollPhysics,
               controller: mainVerticalController,
@@ -383,7 +412,8 @@ class EventsPlannerState extends State<EventsPlanner> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // left Timeline
-                              getVerticalTimeIndicatorWidget(currentHourIndicatorColor),
+                              getVerticalTimeIndicatorWidget(
+                                  currentHourIndicatorColor),
 
                               // day planning infinite list
                               Expanded(
@@ -409,8 +439,11 @@ class EventsPlannerState extends State<EventsPlanner> {
     );
   }
 
-  Widget getPlannerWidget(Color todayColor, double daySeparationWidthPadding, double plannerHeight, Color currentHourIndicatorColor) {
-    var physics = _plannerPointerDownCount > 1 ? const NeverScrollableScrollPhysics() : widget.horizontalScrollPhysics;
+  Widget getPlannerWidget(Color todayColor, double daySeparationWidthPadding,
+      double plannerHeight, Color currentHourIndicatorColor) {
+    var physics = _plannerPointerDownCount > 1
+        ? const NeverScrollableScrollPhysics()
+        : widget.horizontalScrollPhysics;
 
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
@@ -425,7 +458,9 @@ class EventsPlannerState extends State<EventsPlanner> {
         negChildCount: widget.maxPreviousDays,
         posChildCount: widget.maxNextDays,
         builder: (context, index) {
-          var day = widget.textDirection == TextDirection.ltr ? initialDate.add(Duration(days: index)) : initialDate.subtract(Duration(days: index));
+          var day = widget.textDirection == TextDirection.ltr
+              ? initialDate.add(Duration(days: index))
+              : initialDate.subtract(Duration(days: index));
 
           // notify day will be build
           Future(() => widget.dayParam.onDayBuild?.call(day));
@@ -464,7 +499,8 @@ class EventsPlannerState extends State<EventsPlanner> {
       textDirection: widget.textDirection,
       timesIndicatorsParam: widget.timesIndicatorsParam,
       heightPerMinute: heightPerMinute,
-      currentHourIndicatorHourVisibility: widget.currentHourIndicatorParam.currentHourIndicatorHourVisibility,
+      currentHourIndicatorHourVisibility:
+          widget.currentHourIndicatorParam.currentHourIndicatorHourVisibility,
       currentHourIndicatorColor: currentHourIndicatorColor,
     );
   }
@@ -490,14 +526,14 @@ class EventsPlannerState extends State<EventsPlanner> {
   }
 
   HorizontalDaysIndicatorWidget getHorizontalDaysIndicatorWidget(
-    int _startColumnIndex,
+    int startColumnIndex,
     Function(int newStartColumnIndex) onColumnIndexChanged,
   ) {
     return HorizontalDaysIndicatorWidget(
       textDirection: widget.textDirection,
       daysHeaderParam: widget.daysHeaderParam,
       columnsParam: widget.columnsParam,
-      startColumnIndex: _startColumnIndex,
+      startColumnIndex: startColumnIndex,
       onColumnIndexChanged: onColumnIndexChanged,
       dayHorizontalController: headersHorizontalController,
       maxPreviousDays: widget.maxPreviousDays,
@@ -545,7 +581,8 @@ class EventsPlannerState extends State<EventsPlanner> {
       if (minZoom <= newHeightPerMinute && newHeightPerMinute <= maxZoom) {
         setState(() {
           heightPerMinute = newHeightPerMinute;
-          mainVerticalController.jumpTo(mainVerticalControllerOffsetScaleStart * scale);
+          mainVerticalController
+              .jumpTo(mainVerticalControllerOffsetScaleStart * scale);
         });
       }
     }
@@ -556,8 +593,10 @@ class EventsPlannerState extends State<EventsPlanner> {
     widget.pinchToZoomParam.onZoomChange?.call(heightPerMinute);
     if (widget.automaticAdjustHorizontalScrollToDay) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        mainHorizontalController.position.isScrollingNotifier.removeListener(automaticScrollAdjustListener);
-        mainHorizontalController.position.isScrollingNotifier.addListener(automaticScrollAdjustListener);
+        mainHorizontalController.position.isScrollingNotifier
+            .removeListener(automaticScrollAdjustListener);
+        mainHorizontalController.position.isScrollingNotifier
+            .addListener(automaticScrollAdjustListener);
       });
     }
   }
@@ -607,7 +646,9 @@ class FullDayParam {
     this.fullDayEventHeight = 20,
     this.fullDayEventsBarLeftText = defaultFullDayText,
     this.fullDayEventsBarLeftWidget,
-    this.fullDayEventsBarDecoration = const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black12))),
+    this.fullDayEventsBarDecoration = const BoxDecoration(
+      border: Border(bottom: BorderSide(color: Colors.black12)),
+    ),
     this.fullDayEventsBuilder,
     this.fullDayEventBuilder,
     this.fullDayBackgroundColor,
@@ -691,7 +732,8 @@ class CurrentHourIndicatorParam {
   });
 
   /// custom day painter for current hour
-  final CustomPainter Function(double heightPerMinute, bool isToday)? currentHourIndicatorCustomPainter;
+  final CustomPainter Function(double heightPerMinute, bool isToday)?
+      currentHourIndicatorCustomPainter;
 
   /// show current hour line and text
   final bool currentHourIndicatorLineVisibility;
@@ -736,8 +778,13 @@ class OffTimesParam {
   )? offTimesAllDaysPainter;
 
   /// off time on day custom painter
-  final CustomPainter Function(int column, DateTime day, bool isToday, double heightPerMinute, List<OffTimeRange> ranges, Color color)?
-      offTimesDayPainter;
+  final CustomPainter Function(
+      int column,
+      DateTime day,
+      bool isToday,
+      double heightPerMinute,
+      List<OffTimeRange> ranges,
+      Color color)? offTimesDayPainter;
 }
 
 class OffTimeRange {
@@ -794,7 +841,8 @@ class TimesIndicatorsParam {
   final double timesIndicatorsHorizontalPadding;
 
   /// custom times painter
-  final CustomPainter Function(double heightPerMinute)? timesIndicatorsCustomPainter;
+  final CustomPainter Function(double heightPerMinute)?
+      timesIndicatorsCustomPainter;
 }
 
 class ColumnsParam {
@@ -835,14 +883,21 @@ class ColumnsParam {
   final Icon? nextColumnsIcon;
 
   /// column custom builder in top bar
-  final Widget Function(DateTime day, bool isToday, int columIndex, double columnWidth)? columnHeaderBuilder;
+  final Widget Function(
+    DateTime day,
+    bool isToday,
+    int columIndex,
+    double columnWidth,
+  )? columnHeaderBuilder;
 
   /// custom day painter for paint verticals lines
   final CustomPainter Function(double width, int colum)? columnCustomPainter;
 
   double getColumSize(double dayWidth, int columnIndex) {
     var columnWidthRatio = columnsWidthRatio?[columnIndex];
-    return columnWidthRatio != null ? dayWidth * columnWidthRatio : dayWidth / columns;
+    return columnWidthRatio != null
+        ? dayWidth * columnWidthRatio
+        : dayWidth / columns;
   }
 
   /// return column position in day width
@@ -905,13 +960,19 @@ class DayParam {
   final Color? dayColor;
 
   /// custom day painter for paint horizontal lines
-  final CustomPainter Function(double heightPerMinute, bool isToday)? dayCustomPainter;
+  final CustomPainter Function(double heightPerMinute, bool isToday)?
+      dayCustomPainter;
 
   /// event builder
   /// for listening event tap, it's possible to add gesture detector to dayEventBuilder
   /// example : dayEventBuilder : (event, height, width) => DefaultDayEvent(height: height, width: width, onTap...)
   /// or GestureDetector(child: DefaultEventWidget(...));
-  final Widget Function(Event event, double height, double width, double heightPerMinute)? dayEventBuilder;
+  final Widget Function(
+    Event event,
+    double height,
+    double width,
+    double heightPerMinute,
+  )? dayEventBuilder;
 
   /// round date to nearest minutes date
   final int onSlotMinutesRound;
@@ -920,13 +981,25 @@ class DayParam {
   final bool onSlotRoundAlwaysBefore;
 
   /// event when tap on free slot on day
-  final void Function(int columnIndex, DateTime exactDateTime, DateTime roundDateTime)? onSlotTap;
+  final void Function(
+    int columnIndex,
+    DateTime exactDateTime,
+    DateTime roundDateTime,
+  )? onSlotTap;
 
   /// event when long tap on free slot on day
-  final void Function(int columnIndex, DateTime exactDateTime, DateTime roundDateTime)? onSlotLongTap;
+  final void Function(
+    int columnIndex,
+    DateTime exactDateTime,
+    DateTime roundDateTime,
+  )? onSlotLongTap;
 
   /// event when double tap on free slot on day
-  final void Function(int columnIndex, DateTime exactDateTime, DateTime roundDateTime)? onSlotDoubleTap;
+  final void Function(
+    int columnIndex,
+    DateTime exactDateTime,
+    DateTime roundDateTime,
+  )? onSlotDoubleTap;
 
   // Interactive slot selection parameters
   final SlotSelectionParam slotSelectionParam;
@@ -960,7 +1033,8 @@ class SlotSelectionParam {
   final bool clearWhenBackgroundTap;
 
   /// default duration in minutes of interactive slot selection
-  final int Function(int columnIndex, DateTime date)? slotSelectionDefaultDurationInMinutes;
+  final int Function(int columnIndex, DateTime date)?
+      slotSelectionDefaultDurationInMinutes;
 
   /// interactive slot selection content in default InteractiveSlot
   final Widget Function(SlotSelection slot)? slotSelectionContentBuilder;

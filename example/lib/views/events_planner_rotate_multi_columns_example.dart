@@ -14,7 +14,8 @@ class PlannerRotateMultiColumns extends StatefulWidget {
   });
 
   @override
-  State<PlannerRotateMultiColumns> createState() => _PlannerRotateMultiColumnsState();
+  State<PlannerRotateMultiColumns> createState() =>
+      _PlannerRotateMultiColumnsState();
 }
 
 class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
@@ -95,10 +96,12 @@ class _PlannerRotateMultiColumnsState extends State<PlannerRotateMultiColumns> {
                 dayEventBuilder: (event, height, width, heightPerMinute) {
                   return RotatedBox(
                     quarterTurns: 1,
-                    child: CustomEventWidgetExample(controller, event, height, width),
+                    child: CustomEventWidgetExample(
+                        controller, event, height, width),
                   );
                 },
-                onSlotTap: (columnIndex, exactDateTime, roundDateTime) => showSnack(context, "Slot Tap column = ${columnIndex}"),
+                onSlotTap: (columnIndex, exactDateTime, roundDateTime) =>
+                    showSnack(context, "Slot Tap column = ${columnIndex}"),
                 todayColor: Theme.of(context).colorScheme.surface,
               ),
             ),

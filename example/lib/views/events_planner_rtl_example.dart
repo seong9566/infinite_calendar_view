@@ -21,7 +21,8 @@ class PlannerRTL extends StatelessWidget {
       initialVerticalScrollOffset: initialVerticalScrollOffset,
       daysHeaderParam: DaysHeaderParam(
         daysHeaderVisibility: true,
-        dayHeaderTextBuilder: (day) => intl.DateFormat("E d", "ar_TN").format(day),
+        dayHeaderTextBuilder: (day) =>
+            intl.DateFormat("E d", "ar_TN").format(day),
       ),
     );
   }

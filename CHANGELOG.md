@@ -1,3 +1,9 @@
+## 2.9.2
+
+- [lint] Revert to 80 chars
+- [lint] Use flutter_lints instead of lints
+- [lint] Clean code
+
 ## 2.9.1
 
 - [documentation] Showcase dark mode and interactive slot selection

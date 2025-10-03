@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
-import 'package:infinite_calendar_view/src/utils/extension.dart';
 
 class InteractiveSlot extends StatefulWidget {
   const InteractiveSlot({
@@ -47,19 +46,28 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
       },
       onLongPressMoveUpdate: (details) {
         var slotSelection = widget.slot;
-        final minutesDelta = details.localOffsetFromOrigin.dy / widget.heightPerMinute;
+        var round = widget.dayParam.onSlotMinutesRound;
+        final minutesDelta =
+            details.localOffsetFromOrigin.dy / widget.heightPerMinute;
         var minutesDeltaRound = widget.dayParam.onSlotRoundAlwaysBefore
-            ? widget.dayParam.onSlotMinutesRound * (minutesDelta / widget.dayParam.onSlotMinutesRound).floor()
-            : widget.dayParam.onSlotMinutesRound * (minutesDelta / widget.dayParam.onSlotMinutesRound).round();
-        final daysDelta = (details.localOffsetFromOrigin.dx / widget.dayWidth).round();
-        final newStart = initialStartDateTime.add(Duration(days: daysDelta, minutes: minutesDeltaRound));
-        widget.onChanged(SlotSelection(slotSelection.columnIndex, slotSelection.initialStartDateTime, newStart, slotSelection.durationInMinutes));
+            ? round * (minutesDelta / round).floor()
+            : round * (minutesDelta / round).round();
+        final daysDelta =
+            (details.localOffsetFromOrigin.dx / widget.dayWidth).round();
+        final newStart = initialStartDateTime
+            .add(Duration(days: daysDelta, minutes: minutesDeltaRound));
+        widget.onChanged(SlotSelection(
+            slotSelection.columnIndex,
+            slotSelection.initialStartDateTime,
+            newStart,
+            slotSelection.durationInMinutes));
       },
       child: Stack(
         children: [
           // slot build
           Positioned.fill(
-            child: slotSelectionParam.slotSelectionContentBuilder?.call(widget.slot) ??
+            child: slotSelectionParam.slotSelectionContentBuilder
+                    ?.call(widget.slot) ??
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary.withAlpha(80),
@@ -70,7 +78,10 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5.0,
+                      vertical: 15.0,
+                    ),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -106,13 +117,14 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
               gestures: {
                 VerticalDragGestureRecognizer: getBottomHandleGesture(),
               },
-              child: slotSelectionParam.slotSelectionBottomHandleBuilder?.call() ??
-                  Container(
-                    height: 15,
-                    width: double.infinity,
-                    color: Colors.transparent,
-                    child: const Icon(Icons.drag_handle, size: 12),
-                  ),
+              child:
+                  slotSelectionParam.slotSelectionBottomHandleBuilder?.call() ??
+                      Container(
+                        height: 15,
+                        width: double.infinity,
+                        color: Colors.transparent,
+                        child: const Icon(Icons.drag_handle, size: 12),
+                      ),
             ),
           ),
         ],
@@ -120,23 +132,32 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
     );
   }
 
-  GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer> getTopHandleGesture() {
+  GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>
+      getTopHandleGesture() {
     return GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
       () => VerticalDragGestureRecognizer(),
       (instance) {
         instance.onStart = (details) {
           startHandleStartDate = widget.slot.startDateTime;
-          startHandleEndDate = widget.slot.startDateTime.add(Duration(minutes: widget.slot.durationInMinutes));
+          startHandleEndDate = widget.slot.startDateTime
+              .add(Duration(minutes: widget.slot.durationInMinutes));
           startHandleY = details.localPosition.dy;
         };
         instance.onUpdate = (details) {
           if (startHandleY != 0) {
-            final minutesDelta = ((details.localPosition.dy - startHandleY) / widget.heightPerMinute).round();
-            final minutesDeltaRounded = widget.dayParam.onSlotMinutesRound * (minutesDelta / widget.dayParam.onSlotMinutesRound).round();
-            final newStart = startHandleStartDate.add(Duration(minutes: minutesDeltaRounded));
-            final newDuration = startHandleEndDate.totalMinutes - newStart.totalMinutes;
-            if (newDuration != widget.slot.durationInMinutes && newDuration > widget.dayParam.onSlotMinutesRound) {
-              widget.onChanged(SlotSelection(widget.slot.columnIndex, widget.slot.initialStartDateTime, newStart, newDuration));
+            final round = widget.dayParam.onSlotMinutesRound;
+            final minutesDelta = ((details.localPosition.dy - startHandleY) /
+                    widget.heightPerMinute)
+                .round();
+            final minutesDeltaRounded = round * (minutesDelta / round).round();
+            final newStart = startHandleStartDate
+                .add(Duration(minutes: minutesDeltaRounded));
+            final newDuration =
+                startHandleEndDate.totalMinutes - newStart.totalMinutes;
+            if (newDuration != widget.slot.durationInMinutes &&
+                newDuration > round) {
+              widget.onChanged(SlotSelection(widget.slot.columnIndex,
+                  widget.slot.initialStartDateTime, newStart, newDuration));
             }
           }
         };
@@ -149,7 +170,8 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
     );
   }
 
-  GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer> getBottomHandleGesture() {
+  GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>
+      getBottomHandleGesture() {
     return GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
       () => VerticalDragGestureRecognizer(),
       (instance) {
@@ -159,11 +181,20 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
         };
         instance.onUpdate = (details) {
           if (startHandleY != 0) {
-            final minutesDelta = ((details.localPosition.dy - startHandleY) / widget.heightPerMinute).round();
-            final minutesDeltaRounded = widget.dayParam.onSlotMinutesRound * (minutesDelta / widget.dayParam.onSlotMinutesRound).round();
+            final minutesDelta = ((details.localPosition.dy - startHandleY) /
+                    widget.heightPerMinute)
+                .round();
+            final minutesDeltaRounded = widget.dayParam.onSlotMinutesRound *
+                (minutesDelta / widget.dayParam.onSlotMinutesRound).round();
             final newDuration = startHandleDuration + minutesDeltaRounded;
-            if (newDuration != widget.slot.durationInMinutes && newDuration > widget.dayParam.onSlotMinutesRound) {
-              widget.onChanged(SlotSelection(widget.slot.columnIndex, widget.slot.initialStartDateTime, widget.slot.startDateTime, newDuration));
+            if (newDuration != widget.slot.durationInMinutes &&
+                newDuration > widget.dayParam.onSlotMinutesRound) {
+              widget.onChanged(SlotSelection(
+                widget.slot.columnIndex,
+                widget.slot.initialStartDateTime,
+                widget.slot.startDateTime,
+                newDuration,
+              ));
             }
           }
         };
@@ -180,10 +211,11 @@ class _InteractiveSlotState extends State<InteractiveSlot> {
     var duration = (Duration(minutes: slot.durationInMinutes));
     var start = slot.startDateTime;
     var end = start.add(duration);
-    var startText = "${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')}";
-    var endText = "${end.hour.toString().padLeft(2, '0')}:${end.minute.toString().padLeft(2, '0')}";
+    var startText = "${start.hour.toTimeText()}:${start.minute.toTimeText()}";
+    var endText = "${end.hour.toTimeText()}:${end.minute.toTimeText()}";
     var remainedMinutes = slot.durationInMinutes % 60;
-    var durationText = (duration.inHours >= 1 ? "${duration.inHours}h " : "") + (remainedMinutes != 0 ? "${remainedMinutes}m " : "");
-    return "${startText} - ${endText}\n${durationText}";
+    var durationText = (duration.inHours >= 1 ? "${duration.inHours}h " : "") +
+        (remainedMinutes != 0 ? "${remainedMinutes}m " : "");
+    return "$startText - $endText\n$durationText";
   }
 }

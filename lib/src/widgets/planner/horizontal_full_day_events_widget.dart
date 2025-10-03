@@ -71,8 +71,9 @@ class HorizontalFullDayEventsWidget extends StatelessWidget {
                   negChildCount: maxPreviousDays,
                   posChildCount: maxNextDays,
                   builder: (context, index) {
-                    var day =
-                        textDirection == TextDirection.ltr ? initialDate.add(Duration(days: index)) : initialDate.subtract(Duration(days: index));
+                    var day = textDirection == TextDirection.ltr
+                        ? initialDate.add(Duration(days: index))
+                        : initialDate.subtract(Duration(days: index));
                     var isToday = DateUtils.isSameDay(day, DateTime.now());
                     return InfiniteListItem(
                       contentBuilder: (context) {
@@ -86,7 +87,8 @@ class HorizontalFullDayEventsWidget extends StatelessWidget {
                             fullDayParam: fullDayParam,
                             columnsParam: columnsParam,
                             dayWidth: dayWidth,
-                            daySeparationWidthPadding: daySeparationWidthPadding,
+                            daySeparationWidthPadding:
+                                daySeparationWidthPadding,
                           ),
                         );
                       },
@@ -172,10 +174,13 @@ class _FullDayEventsWidgetState extends State<FullDayEventsWidget> {
     var width = widget.dayWidth - (widget.daySeparationWidthPadding * 2);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: widget.daySeparationWidthPadding),
+      padding:
+          EdgeInsets.symmetric(horizontal: widget.daySeparationWidthPadding),
       child: Container(
         decoration: BoxDecoration(
-          color: widget.isToday && widget.todayColor != null ? widget.todayColor : widget.fullDayParam.fullDayBackgroundColor,
+          color: widget.isToday && widget.todayColor != null
+              ? widget.todayColor
+              : widget.fullDayParam.fullDayBackgroundColor,
         ),
         child: Stack(
           children: [
@@ -191,7 +196,8 @@ class _FullDayEventsWidgetState extends State<FullDayEventsWidget> {
   Widget getFullDayEvents(double width) {
     var eventTopPadding = 2.0;
     return widget.fullDayParam.fullDayEventsBuilder != null
-        ? widget.fullDayParam.fullDayEventsBuilder!.call(events ?? [], widget.dayWidth)
+        ? widget.fullDayParam.fullDayEventsBuilder!
+            .call(events ?? [], widget.dayWidth)
         : SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -199,7 +205,8 @@ class _FullDayEventsWidgetState extends State<FullDayEventsWidget> {
                 for (var e in events ?? [])
                   Padding(
                     padding: EdgeInsets.only(top: eventTopPadding),
-                    child: widget.fullDayParam.fullDayEventBuilder?.call(e, widget.dayWidth) ??
+                    child: widget.fullDayParam.fullDayEventBuilder
+                            ?.call(e, widget.dayWidth) ??
                         DefaultDayEvent(
                           height: widget.fullDayParam.fullDayEventHeight,
                           width: width,
@@ -220,7 +227,8 @@ class _FullDayEventsWidgetState extends State<FullDayEventsWidget> {
       width: width,
       height: widget.fullDayParam.fullDayEventsBarHeight,
       child: CustomPaint(
-        foregroundPainter: widget.columnsParam.columnCustomPainter?.call(width, widget.columnsParam.columns) ??
+        foregroundPainter: widget.columnsParam.columnCustomPainter
+                ?.call(width, widget.columnsParam.columns) ??
             ColumnPainter(
               width: width,
               columnsParam: widget.columnsParam,

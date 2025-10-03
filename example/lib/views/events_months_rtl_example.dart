@@ -19,7 +19,9 @@ class MonthsRTL extends StatelessWidget {
         headerDayText: (dayOfWeek) => getDayName(dayOfWeek),
       ),
       daysParam: DaysParam(
-        dayHeaderTextBuilder: (day) => (day.day == 1 ? "${intl.DateFormat.MMM(locale).format(day)}. 1" : day.day.toString()),
+        dayHeaderTextBuilder: (day) => (day.day == 1
+            ? "${intl.DateFormat.MMM(locale).format(day)}. 1"
+            : day.day.toString()),
       ),
     );
   }

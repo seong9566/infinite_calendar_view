@@ -1,3 +1,4 @@
+import 'package:example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 
@@ -100,15 +101,5 @@ class CustomEventWidgetExample extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getSlotHourText(DateTime start, DateTime end) {
-    return start.hour.toString().padLeft(2, '0') +
-        ":" +
-        start.hour.toString().padLeft(2, '0') +
-        " - " +
-        end.hour.toString().padLeft(2, '0') +
-        ":" +
-        end.hour.toString().padLeft(2, '0');
   }
 }

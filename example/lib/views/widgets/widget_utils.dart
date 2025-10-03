@@ -1,5 +1,4 @@
 import 'package:example/data.dart';
-import 'package:example/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_calendar_view/infinite_calendar_view.dart';
 
@@ -17,8 +16,11 @@ class Utils {
 
   static OffTimesParam customOffTimes(BuildContext context, bool isDarkMode) {
     return OffTimesParam(
-      offTimesAllDaysPainter: (column, day, isToday, heightPerMinute, ranges, color) {
-        var offTimesDefaultColor = isDarkMode ? Theme.of(context).colorScheme.surface.lighten(0.03) : const Color(0xFFF4F4F4);
+      offTimesAllDaysPainter:
+          (column, day, isToday, heightPerMinute, ranges, color) {
+        var offTimesDefaultColor = isDarkMode
+            ? Theme.of(context).colorScheme.surface.lighten(0.03)
+            : const Color(0xFFF4F4F4);
         return OffSetAllDaysPainter(
           isToday,
           paintToday: true,

@@ -29,7 +29,10 @@ class PlannerTreeDays extends StatelessWidget {
         slotSelectionParam: SlotSelectionParam(
           enableTapSlotSelection: true,
           enableLongPressSlotSelection: true,
-          onSlotSelectionTap: (slot) => showSnack(context, slot.startDateTime.toString() + " : " + slot.durationInMinutes.toString()),
+          onSlotSelectionTap: (slot) => showSnack(
+            context,
+            "${slot.startDateTime} : ${slot.durationInMinutes}",
+          ),
         ),
       ),
     );

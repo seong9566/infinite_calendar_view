@@ -43,20 +43,27 @@ class EventsPlannerAllParamView extends StatelessWidget {
       ),
       offTimesParam: OffTimesParam(
         offTimesAllDaysRanges: [
-          OffTimeRange(TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 7, minute: 0)),
-          OffTimeRange(TimeOfDay(hour: 18, minute: 0), TimeOfDay(hour: 24, minute: 0))
+          OffTimeRange(
+              TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 7, minute: 0)),
+          OffTimeRange(
+              TimeOfDay(hour: 18, minute: 0), TimeOfDay(hour: 24, minute: 0))
         ],
         offTimesDayRanges: {
           DateTime(2024, 10, 8): [
-            OffTimeRange(TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 18, minute: 0)),
+            OffTimeRange(
+                TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 18, minute: 0)),
           ],
         },
         offTimesColor: Color(0xFFF4F4F4),
-        offTimesAllDaysPainter: (column, day, isToday, heightPerMinute, ranges, color) {
-          return OffSetAllDaysPainter(isToday, heightPerMinute, [], Color(0xFFF4F4F4));
+        offTimesAllDaysPainter:
+            (column, day, isToday, heightPerMinute, ranges, color) {
+          return OffSetAllDaysPainter(
+              isToday, heightPerMinute, [], Color(0xFFF4F4F4));
         },
-        offTimesDayPainter: (column, day, isToday, heightPerMinute, ranges, color) {
-          return OffSetAllDaysPainter(isToday, heightPerMinute, [], Color(0xFFF4F4F4));
+        offTimesDayPainter:
+            (column, day, isToday, heightPerMinute, ranges, color) {
+          return OffSetAllDaysPainter(
+              isToday, heightPerMinute, [], Color(0xFFF4F4F4));
         },
       ),
       dayParam: DayParam(
@@ -88,9 +95,20 @@ class EventsPlannerAllParamView extends StatelessWidget {
           clearWhenBackgroundTap: true,
           slotSelectionDefaultDurationInMinutes: (columnIndex, date) => 60,
           onSlotSelectionChange: (slot) {},
-          slotSelectionBuilder: (slot, dayWidth, dayParam, columnsParam, heightPerMinute, onChanged) => InteractiveSlot(
-              slot: slot, dayWidth: dayWidth, dayParam: dayParam, columnsParam: columnsParam, heightPerMinute: heightPerMinute, onChanged: onChanged),
-          onSlotSelectionTap: (slot) => showSnack(context, slot.startDateTime.toString() + " : " + slot.durationInMinutes.toString()),
+          slotSelectionBuilder: (slot, dayWidth, dayParam, columnsParam,
+                  heightPerMinute, onChanged) =>
+              InteractiveSlot(
+                  slot: slot,
+                  dayWidth: dayWidth,
+                  dayParam: dayParam,
+                  columnsParam: columnsParam,
+                  heightPerMinute: heightPerMinute,
+                  onChanged: onChanged),
+          onSlotSelectionTap: (slot) => showSnack(
+              context,
+              slot.startDateTime.toString() +
+                  " : " +
+                  slot.durationInMinutes.toString()),
         ),
       ),
       fullDayParam: FullDayParam(
@@ -98,7 +116,8 @@ class EventsPlannerAllParamView extends StatelessWidget {
         fullDayEventsBarLeftText: 'All day',
         fullDayEventsBarLeftWidget: Text('All day'),
         fullDayEventsBarHeight: 40,
-        fullDayEventsBarDecoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black12))),
+        fullDayEventsBarDecoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black12))),
       ),
       timesIndicatorsParam: TimesIndicatorsParam(
         timesIndicatorsWidth: 60.0,
@@ -118,7 +137,8 @@ class EventsPlannerAllParamView extends StatelessWidget {
         currentHourIndicatorHourVisibility: true,
         currentHourIndicatorLineVisibility: true,
         currentHourIndicatorColor: Colors.blue,
-        currentHourIndicatorCustomPainter: (heightPerMinute, isToday) => TimeIndicatorPainter(heightPerMinute, isToday, Colors.blue),
+        currentHourIndicatorCustomPainter: (heightPerMinute, isToday) =>
+            TimeIndicatorPainter(heightPerMinute, isToday, Colors.blue),
       ),
       pinchToZoomParam: PinchToZoomParameters(
         pinchToZoom: true,

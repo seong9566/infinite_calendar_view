@@ -1,4 +1,4 @@
-include: package:lints/core.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
@@ -9,7 +9,3 @@ analyzer:
     - idea/**
     - .dart_tool/**
     - example/.dart_tool/**
-
-linter:
-  rules:
-    lines_longer_than_80_chars: false

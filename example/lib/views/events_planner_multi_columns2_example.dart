@@ -83,8 +83,10 @@ class _PlannerMultiColumns2State extends State<PlannerMultiColumns2> {
 
             // event cell
             dayParam: DayParam(
-              dayEventBuilder: (event, height, width, heightPerMinute) => CustomEventWidgetExample(controller, event, height, width),
-              onSlotTap: (columnIndex, exactDateTime, roundDateTime) => showSnack(context, "Slot Tap column = ${columnIndex}"),
+              dayEventBuilder: (event, height, width, heightPerMinute) =>
+                  CustomEventWidgetExample(controller, event, height, width),
+              onSlotTap: (columnIndex, exactDateTime, roundDateTime) =>
+                  showSnack(context, "Slot Tap column = ${columnIndex}"),
               todayColor: Theme.of(context).colorScheme.surface,
             ),
           ),

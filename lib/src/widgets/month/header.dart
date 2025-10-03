@@ -26,9 +26,13 @@ class MonthHeader extends StatelessWidget {
         textDirection: textDirection,
         mainAxisSize: MainAxisSize.max,
         children: [
-          for (var dayOfWeek = startOfWeek; dayOfWeek < startOfWeek + 7; dayOfWeek++)
+          for (var dayOfWeek = startOfWeek;
+              dayOfWeek < startOfWeek + 7;
+              dayOfWeek++)
             Expanded(
-              child: weekParam.headerDayBuilder?.call(((dayOfWeek - 1) % 7) + 1) ?? getDefaultHeaderDay(context, (dayOfWeek - 1) % 7),
+              child:
+                  weekParam.headerDayBuilder?.call(((dayOfWeek - 1) % 7) + 1) ??
+                      getDefaultHeaderDay(context, (dayOfWeek - 1) % 7),
             )
         ],
       ),
@@ -38,15 +42,19 @@ class MonthHeader extends StatelessWidget {
   Widget getDefaultHeaderDay(BuildContext context, int dayOfWeek) {
     return Center(
       child: Text(
-        weekParam.headerDayText?.call(dayOfWeek + 1) ?? defaultDaysOfWeekText[dayOfWeek],
+        weekParam.headerDayText?.call(dayOfWeek + 1) ??
+            defaultDaysOfWeekText[dayOfWeek],
         style: weekParam.headerStyle ?? getDefaultTextStyle(context, dayOfWeek),
       ),
     );
   }
 
   TextStyle getDefaultTextStyle(BuildContext context, int dayOfWeek) {
-    var defaultForegroundColor = context.isDarkMode ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary;
-    var textColor = weekParam.headerDayTextColor?.call(dayOfWeek + 1) ?? defaultForegroundColor;
+    var defaultForegroundColor = context.isDarkMode
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onPrimary;
+    var textColor = weekParam.headerDayTextColor?.call(dayOfWeek + 1) ??
+        defaultForegroundColor;
     return TextStyle().copyWith(
       color: (dayOfWeek >= 5) ? textColor.darken() : textColor,
       fontWeight: FontWeight.w700,
