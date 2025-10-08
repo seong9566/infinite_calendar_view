@@ -1,3 +1,7 @@
+## 2.10.0
+
+- [bug] due to the change in some locales, some days of the calendar were duplicated
+
 ## 2.9.2
 
 - [lint] Revert to 80 chars

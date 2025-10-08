@@ -107,7 +107,7 @@ class EventsListState extends State<EventsList> {
         posChildCount: widget.maxNextDays,
         physics: widget.verticalScrollPhysics,
         builder: (context, index) {
-          var day = initialDay.add(Duration(days: index)).withoutTime;
+          var day = initialDay.addCalendarDays(index).withoutTime;
           var isToday = DateUtils.isSameDay(day, DateTime.now());
 
           return InfiniteListItem(

@@ -17,6 +17,12 @@ extension DateTimeExtensions on DateTime {
     var dayDifference = (this.weekday - weekday) % 7;
     return DateTime(year, month, day - dayDifference);
   }
+
+  // add calendar days without offset if the timezone changes between days
+  DateTime addCalendarDays(int days) {
+    return DateTime(year, month, day + days, hour, minute, second, millisecond,
+        microsecond);
+  }
 }
 
 extension TimerOfDayExtension on TimeOfDay {

@@ -68,9 +68,7 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
                 negChildCount: maxPreviousDays,
                 posChildCount: maxNextDays,
                 builder: (context, index) {
-                  var day = textDirection == TextDirection.ltr
-                      ? initialDate.add(Duration(days: index))
-                      : initialDate.subtract(Duration(days: index));
+                  var day = getDayFromIndex(index);
                   var isToday = DateUtils.isSameDay(day, DateTime.now());
 
                   return InfiniteListItem(
@@ -102,6 +100,11 @@ class HorizontalDaysIndicatorWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  DateTime getDayFromIndex(index) {
+    return initialDate
+        .addCalendarDays(textDirection == TextDirection.ltr ? index : -index);
   }
 
   DefaultDayHeader getDefaultDayHeader(DateTime day, bool isToday) {

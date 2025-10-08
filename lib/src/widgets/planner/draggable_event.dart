@@ -77,7 +77,7 @@ class DraggableEventWidget extends StatelessWidget {
         // adjust negative index, because current day begin 0 and negative begin -1
         var reallyDayIndex = releaseOffsetX >= 0 ? dayIndex : dayIndex - 1;
         var currentDay = plannerState?.initialDate
-                .add(Duration(days: reallyDayIndex))
+                .addCalendarDays(reallyDayIndex)
                 .withoutTime ??
             event.startTime.withoutTime;
 

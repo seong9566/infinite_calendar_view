@@ -72,7 +72,7 @@ class _WeekState extends State<Week> {
     List<List<Event>?> eventsList = [];
     for (var day = 0; day < 7; day++) {
       eventsList.add(widget.controller.getSortedFilteredDayEvents(
-        widget.startOfWeek.add(Duration(days: day)),
+        widget.startOfWeek.addCalendarDays(day),
       ));
     }
     return eventsList;
@@ -150,13 +150,13 @@ class _WeekState extends State<Week> {
     var position = (x / dayWidth).toInt();
     var dayOfWeek =
         widget.textDirection == TextDirection.ltr ? position : 6 - position;
-    var day = widget.startOfWeek.add(Duration(days: dayOfWeek));
+    var day = widget.startOfWeek.addCalendarDays(dayOfWeek);
     return day;
   }
 
   // get header of day
   Widget getHeaderWidget(int dayOfWeek) {
-    var day = widget.startOfWeek.add(Duration(days: dayOfWeek));
+    var day = widget.startOfWeek.addCalendarDays(dayOfWeek);
     var isStartOfMonth = day.day == 1;
     var colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
@@ -185,7 +185,7 @@ class _WeekState extends State<Week> {
     var eventHeight = widget.daysParam.eventHeight;
     var horizontalPosition = dayOfWeek * dayWidth + (daySpacing / 2);
     var eventsLength = weekEvents[dayOfWeek]?.length ?? 0;
-    var day = widget.startOfWeek.add(Duration(days: dayOfWeek));
+    var day = widget.startOfWeek.addCalendarDays(dayOfWeek);
 
     // More widget
     var isLastSlot = eventIndex == widget.maxEventsShowed - 1;

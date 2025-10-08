@@ -88,11 +88,11 @@ class CalendarData {
 
       // if event is multi days, dispatch in all events days
       for (int i = 0; i <= days; i++) {
-        var day = event.startTime.withoutTime.add(Duration(days: i));
+        var day = event.startTime.withoutTime.addCalendarDays(i);
         var startTime = i == 0 ? event.startTime : day;
         var endTime = (i == days && !event.isFullDay)
             ? event.endTime
-            : day.add(Duration(days: 1, milliseconds: -1));
+            : day.addCalendarDays(1).add(Duration(milliseconds: -1));
         var newEvents = event.copyWith(
           startTime: startTime,
           endTime: endTime,
@@ -182,11 +182,11 @@ class CalendarData {
       previousDay = previousDay.subtract(Duration(days: 1));
     }
     // remove next same event (multi day events)
-    var nextDay = event.startTime.withoutTime.add(Duration(days: 1));
+    var nextDay = event.startTime.withoutTime.addCalendarDays(1);
     while (
         dayEvents[nextDay]?.any((e) => e.uniqueId == event.uniqueId) == true) {
       dayEvents[nextDay]?.removeWhere((e) => e.uniqueId == event.uniqueId);
-      nextDay = nextDay.add(Duration(days: 1));
+      nextDay = nextDay.addCalendarDays(1);
     }
   }
 

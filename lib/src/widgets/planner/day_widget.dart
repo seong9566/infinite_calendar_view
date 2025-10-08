@@ -104,7 +104,8 @@ class DayWidget extends StatelessWidget {
               final daysDelta =
                   (details.localOffsetFromOrigin.dx / dayWidth).round();
               final newStart = slotSelection.initialStartDateTime
-                  .add(Duration(days: daysDelta, minutes: minutesDeltaRound));
+                  .addCalendarDays(daysDelta)
+                  .add(Duration(minutes: minutesDeltaRound));
               controller.slotSelectionNotifier.value = SlotSelection(
                 slotSelection.columnIndex,
                 slotSelection.initialStartDateTime,

@@ -245,9 +245,8 @@ class EventsPlannerState extends State<EventsPlanner> {
         if (index != currentIndex) {
           currentIndex = index;
           var currentDay = widget.textDirection == TextDirection.ltr
-              ? initialDate.add(Duration(days: currentIndex))
-              : initialDate.subtract(
-                  Duration(days: currentIndex + widget.daysShowed - 1));
+              ? getDayFromIndex(currentIndex)
+              : getDayFromIndex(currentIndex + widget.daysShowed - 1);
           widget.onDayChange?.call(currentDay);
           widget.controller.updateFocusedDay(currentDay);
           topLeftCellValueNotifier.value = currentDay;
@@ -274,8 +273,8 @@ class EventsPlannerState extends State<EventsPlanner> {
                 curve: Curves.easeIn);
 
             // event
-            var adjustedDay = initialDate
-                .add(Duration(days: (nearestDayOffset / dayWidth).toInt()));
+            var adjustedDay =
+                getDayFromIndex((nearestDayOffset / dayWidth).toInt());
             widget.onAutomaticAdjustHorizontalScroll?.call(adjustedDay);
           });
         }
@@ -354,6 +353,11 @@ class EventsPlannerState extends State<EventsPlanner> {
         );
       },
     );
+  }
+
+  DateTime getDayFromIndex(index) {
+    return initialDate.addCalendarDays(
+        widget.textDirection == TextDirection.ltr ? index : -index);
   }
 
   Color getDefaultTodayColor(BuildContext context) {
@@ -458,9 +462,7 @@ class EventsPlannerState extends State<EventsPlanner> {
         negChildCount: widget.maxPreviousDays,
         posChildCount: widget.maxNextDays,
         builder: (context, index) {
-          var day = widget.textDirection == TextDirection.ltr
-              ? initialDate.add(Duration(days: index))
-              : initialDate.subtract(Duration(days: index));
+          var day = getDayFromIndex(index);
 
           // notify day will be build
           Future(() => widget.dayParam.onDayBuild?.call(day));

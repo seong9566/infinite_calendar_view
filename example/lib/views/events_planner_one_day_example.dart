@@ -65,7 +65,7 @@ class _PlannerOneDayState extends State<PlannerOneDay> {
                   textColor: event.textColor,
                   roundBorderRadius: 15,
                   horizontalPadding: 8,
-                  verticalPadding: 8,
+                  verticalPadding: 4,
                   onTap: () => print("tap ${event.uniqueId}"),
                   onTapDown: (details) => print("tapdown ${event.uniqueId}"),
                 );
