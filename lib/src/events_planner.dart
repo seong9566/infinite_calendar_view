@@ -355,7 +355,7 @@ class EventsPlannerState extends State<EventsPlanner> {
     );
   }
 
-  DateTime getDayFromIndex(index) {
+  DateTime getDayFromIndex(int index) {
     return initialDate.addCalendarDays(
         widget.textDirection == TextDirection.ltr ? index : -index);
   }

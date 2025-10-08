@@ -1,3 +1,8 @@
+## 2.10.1
+
+- [lint] Clean code
+- [bug] RTL : current day on onDayChange/updateFocusedDay is wrong
+
 ## 2.10.0
 
 - [bug] due to the change in some locales, some days of the calendar were duplicated

@@ -99,7 +99,7 @@ class HorizontalFullDayEventsWidget extends StatelessWidget {
     );
   }
 
-  DateTime getDayFromIndex(index) {
+  DateTime getDayFromIndex(int index) {
     return initialDate
         .addCalendarDays(textDirection == TextDirection.ltr ? index : -index);
   }
