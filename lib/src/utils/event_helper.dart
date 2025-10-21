@@ -32,12 +32,25 @@ List<List<Event?>> getShowedWeekEvents(
       }
     }
 
-    // place all line
-    if (index < maxEventsShowed) {
-      for (var eventToPlace in multiDayEvents.entries) {
-        daysEventsList[eventToPlace.key].insert(index, eventToPlace.value);
+
+// place all line
+if (index < maxEventsShowed) {
+  for (var eventToPlace in multiDayEvents.entries) {
+    var dayEvents = daysEventsList[eventToPlace.key];
+    
+    // insert 대신 기존 null 항목을 교체
+    if (index < dayEvents.length && dayEvents[index] == null) {
+      dayEvents[index] = eventToPlace.value;
+    } else if (index < maxEventsShowed - 1) {
+      // 중간 삽입이 필요한 경우에만 insert 사용
+      // 단, 배열 길이가 maxEventsShowed를 초과하지 않도록 제한
+      if (dayEvents.length >= maxEventsShowed) {
+        dayEvents.removeLast();
       }
+      dayEvents.insert(index, eventToPlace.value);
     }
+  }
+}
   }
   return daysEventsList;
 }
