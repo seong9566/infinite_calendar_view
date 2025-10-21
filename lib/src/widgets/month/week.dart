@@ -105,14 +105,34 @@ class _WeekState extends State<Week> {
                 onTapUp: (details) => widget.daysParam.onDayTapUp
                     ?.call(getPositionDay(details.localPosition, dayWidth)),
                 behavior: HitTestBehavior.translucent,
-                child: Row(
-                  textDirection: widget.textDirection,
-                  mainAxisSize: MainAxisSize.max,
+                child: Stack(
                   children: [
-                    for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
-                      Expanded(
-                        child: _buildDayCell(dayOfWeek, dayWidth),
+                    // Day cells (headers only)
+                    Row(
+                      textDirection: widget.textDirection,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+                          Expanded(
+                            child: _buildDayCellHeader(dayOfWeek),
+                          ),
+                      ],
+                    ),
+                    // Events layer (positioned absolutely to allow multi-day events)
+                    Positioned.fill(
+                      top: widget.daysParam.headerHeight,
+                      child: Stack(
+                        children: [
+                          for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+                            for (var eventIndex = 0;
+                                eventIndex < weekShowedEvents[dayOfWeek].length;
+                                eventIndex++)
+                              if (eventIndex < widget.maxEventsShowed)
+                                ...getEventOrMoreEventsWidget(
+                                    dayOfWeek, eventIndex, dayWidth),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               );
@@ -132,40 +152,30 @@ class _WeekState extends State<Week> {
     return day;
   }
 
-  // Build day cell with header and events
-  Widget _buildDayCell(int dayOfWeek, double dayWidth) {
+  // Build day cell header with optional dayCellBuilder wrapper
+  Widget _buildDayCellHeader(int dayOfWeek) {
     final day = widget.startOfWeek.addCalendarDays(dayOfWeek);
     
-    // Build the day column (header + events area)
-    final dayColumn = Column(
-      children: [
-        // Day header
-        SizedBox(
-          height: widget.daysParam.headerHeight,
-          child: getHeaderWidget(dayOfWeek),
-        ),
-        // Events area
-        Expanded(
-          child: Stack(
-            children: [
-              for (var eventIndex = 0;
-                  eventIndex < weekShowedEvents[dayOfWeek].length;
-                  eventIndex++)
-                if (eventIndex < widget.maxEventsShowed)
-                  ...getEventOrMoreEventsWidgetForDay(
-                      dayOfWeek, eventIndex, dayWidth),
-            ],
-          ),
-        ),
-      ],
+    // Build the day header
+    final headerWidget = SizedBox(
+      height: widget.daysParam.headerHeight,
+      child: getHeaderWidget(dayOfWeek),
     );
 
-    // Apply dayCellBuilder if provided
+    // Apply dayCellBuilder if provided (wraps the entire column including events area)
     if (widget.daysParam.dayCellBuilder != null) {
-      return widget.daysParam.dayCellBuilder!(day, dayColumn);
+      return widget.daysParam.dayCellBuilder!(
+        day,
+        Column(
+          children: [
+            headerWidget,
+            Expanded(child: SizedBox()), // Events area placeholder
+          ],
+        ),
+      );
     }
     
-    return dayColumn;
+    return headerWidget;
   }
 
   // get header of day
@@ -188,8 +198,8 @@ class _WeekState extends State<Week> {
     );
   }
 
-  /// get Event widget or "More" widget for a specific day (used in day cell)
-  List<Widget> getEventOrMoreEventsWidgetForDay(
+  /// get Event widget or "More" widget
+  List<Widget> getEventOrMoreEventsWidget(
     int dayOfWeek,
     int eventIndex,
     double dayWidth,
@@ -197,6 +207,7 @@ class _WeekState extends State<Week> {
     var daySpacing = widget.weekParam.daySpacing;
     var eventSpacing = widget.daysParam.eventSpacing;
     var eventHeight = widget.daysParam.eventHeight;
+    var horizontalPosition = dayOfWeek * dayWidth + (daySpacing / 2);
     var eventsLength = weekEvents[dayOfWeek]?.length ?? 0;
     var day = widget.startOfWeek.addCalendarDays(dayOfWeek);
 
@@ -206,20 +217,22 @@ class _WeekState extends State<Week> {
     if (isLastSlot && notShowedEventsCount > 1) {
       return [
         Positioned(
-          left: 0,
-          right: 0,
+          left: widget.textDirection == TextDirection.ltr
+              ? horizontalPosition
+              : null,
+          right: widget.textDirection == TextDirection.rtl
+              ? horizontalPosition
+              : null,
           top: (widget.maxEventsShowed - 1) * (eventHeight + eventSpacing),
+          width: dayWidth - daySpacing,
           height: eventHeight,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: daySpacing / 2),
-            child: widget.daysParam.dayMoreEventsBuilder
-                    ?.call(notShowedEventsCount, day) ??
-                DefaultNotShowedMonthEventsWidget(
-                  context: context,
-                  eventHeight: eventHeight,
-                  text: "$notShowedEventsCount others",
-                ),
-          ),
+          child: widget.daysParam.dayMoreEventsBuilder
+                  ?.call(notShowedEventsCount, day) ??
+              DefaultNotShowedMonthEventsWidget(
+                context: context,
+                eventHeight: eventHeight,
+                text: "$notShowedEventsCount others",
+              ),
         )
       ];
     }
@@ -242,20 +255,21 @@ class _WeekState extends State<Week> {
           (eventHeight + eventSpacing);
       return [
         Positioned(
-            left: 0,
-            right: duration > 1 ? null : 0,
+            left: widget.textDirection == TextDirection.ltr
+                ? horizontalPosition
+                : null,
+            right: widget.textDirection == TextDirection.rtl
+                ? horizontalPosition
+                : null,
             top: top,
-            width: duration > 1 ? eventWidth : null,
+            width: eventWidth,
             height: eventHeight,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: daySpacing / 2),
-              child: widget.daysParam.dayEventBuilder?.call(
-                    event,
-                    eventWidth - daySpacing,
-                    eventHeight,
-                  ) ??
-                  DefaultMonthDayEvent(event: event),
-            ))
+            child: widget.daysParam.dayEventBuilder?.call(
+                  event,
+                  eventWidth,
+                  eventHeight,
+                ) ??
+                DefaultMonthDayEvent(event: event))
       ];
     }
 
