@@ -364,6 +364,7 @@ class DaysParam {
     this.dayHeaderTextBuilder,
     this.dayEventBuilder,
     this.dayMoreEventsBuilder,
+    this.dayCellBuilder,
     this.onDayTapDown,
     this.onDayTapUp,
   });
@@ -390,6 +391,9 @@ class DaysParam {
       dayEventBuilder;
 
   final Widget Function(int count, DateTime day)? dayMoreEventsBuilder;
+
+  /// day cell builder (wraps entire day cell including header and events)
+  final Widget Function(DateTime day, Widget child)? dayCellBuilder;
 
   final void Function(DateTime day)? onDayTapDown;
 
