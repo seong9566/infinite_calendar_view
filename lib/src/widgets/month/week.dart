@@ -107,6 +107,21 @@ class _WeekState extends State<Week> {
                 behavior: HitTestBehavior.translucent,
                 child: Stack(
                   children: [
+                    // Day cell backgrounds (entire cell)
+                    if (widget.daysParam.dayCellBackgroundBuilder != null)
+                      Row(
+                        textDirection: widget.textDirection,
+                        children: [
+                          for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+                            Expanded(
+                              child: Container(
+                                color: widget.daysParam.dayCellBackgroundBuilder
+                                    ?.call(widget.startOfWeek
+                                        .addCalendarDays(dayOfWeek)),
+                              ),
+                            ),
+                        ],
+                      ),
                     // Day cells (headers only)
                     Row(
                       textDirection: widget.textDirection,

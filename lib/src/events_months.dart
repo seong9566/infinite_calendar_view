@@ -365,6 +365,7 @@ class DaysParam {
     this.dayEventBuilder,
     this.dayMoreEventsBuilder,
     this.dayCellBuilder,
+    this.dayCellBackgroundBuilder,
     this.onDayTapDown,
     this.onDayTapUp,
   });
@@ -394,6 +395,9 @@ class DaysParam {
 
   /// day cell builder (wraps entire day cell including header and events)
   final Widget Function(DateTime day, Widget child)? dayCellBuilder;
+
+  /// day cell background color builder (for entire cell including events)
+  final Color? Function(DateTime day)? dayCellBackgroundBuilder;
 
   final void Function(DateTime day)? onDayTapDown;
 
