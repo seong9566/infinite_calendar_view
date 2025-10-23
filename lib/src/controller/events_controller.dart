@@ -59,10 +59,22 @@ class EventsController extends ChangeNotifier {
     return dayEventsFilter.call(date, dayEventsByType);
   }
 
-  // get day events sorted by startTime
+  // List<Event>? getSortedFilteredDayEvents(DateTime date) {
+  //   var daysEvents = getFilteredDayEvents(date);
+  //   daysEvents?.sort((a, b) => a.startTime.compareTo(b.startTime));
+  //   return daysEvents;
+  // }
+  // get day events sorted by isFullDay (priority) then by startTime
   List<Event>? getSortedFilteredDayEvents(DateTime date) {
     var daysEvents = getFilteredDayEvents(date);
-    daysEvents?.sort((a, b) => a.startTime.compareTo(b.startTime));
+    daysEvents?.sort((a, b) {
+      // 1차: isFullDay 우선 (false가 먼저, 나중에 렌더링되도록)
+      if (a.isFullDay != b.isFullDay) {
+        return a.isFullDay ? 1 : -1;
+      }
+      // 2차: 같은 isFullDay 상태면 startTime으로 정렬
+      return a.startTime.compareTo(b.startTime);
+    });
     return daysEvents;
   }
 
